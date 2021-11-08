@@ -22,3 +22,5 @@ ReactDOM.render(
   </Router>,
   document.getElementById('root')
 );
+
+// "build": "react-scripts build && gulp licenses",
