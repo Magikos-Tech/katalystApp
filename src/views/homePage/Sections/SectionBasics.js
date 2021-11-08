@@ -121,7 +121,7 @@ export default function SectionBasics() {
     if (e == 'Commercial') {
       setCommOrRes(2);
       const name = 'res_comm_both';
-      setDa...data, [name]: e });
+      setData({...data, [name]: e });
       console.log(data);
     }
     if (e == 'Residential with Commercial Component') {
