@@ -86,20 +86,64 @@ export default function SectionBasics() {
   const handleSubmit = (event) => {
     // console.log('Submitted Data:', data);
     const dataKeys = Object.keys(data);
+    if (data.res_comm_both == 'Residential') {
+      dataKeys.forEach((e) => {
+        if (e === 'quarterly_escalation_con' && !data[e].includes('%'))
+          data[e] = data[e] + '%';
+        if (e === 'quarterly_escalation_res' && !data[e].includes('%'))
+          data[e] = data[e] + '%';
+        // if (e === 'quarterly_escalation' && !data[e].includes('%'))
+        //   data[e] = data[e] + '%';
+        if (e === 'brokerage' && !data[e].includes('%'))
+          data[e] = data[e] + '%';
+        if (e === 'other_costs' && !data[e].includes('%'))
+          data[e] = data[e] + '%';
+        if (e === 'desired_return' && !data[e].includes('%'))
+          data[e] = data[e] + '%';
+      });
+  
+      data.saleable_area = '';
+      data.inc_sale_price = '';
+      data.quarterly_escalation = '';
+    }
+    if (data.res_comm_both == 'Commercial') {
+      dataKeys.forEach((e) => {
+        if (e === 'quarterly_escalation_con' && !data[e].includes('%'))
+          data[e] = data[e] + '%';
+        // if (e === 'quarterly_escalation_res' && !data[e].includes('%'))
+        //   data[e] = data[e] + '%';
+        if (e === 'quarterly_escalation' && !data[e].includes('%'))
+          data[e] = data[e] + '%';
+        if (e === 'brokerage' && !data[e].includes('%'))
+          data[e] = data[e] + '%';
+        if (e === 'other_costs' && !data[e].includes('%'))
+          data[e] = data[e] + '%';
+        if (e === 'desired_return' && !data[e].includes('%'))
+          data[e] = data[e] + '%';
+      });
 
-    dataKeys.forEach((e) => {
-      if (e === 'quarterly_escalation_con' && !data[e].includes('%'))
-        data[e] = data[e] + '%';
-      if (e === 'quarterly_escalation_res' && !data[e].includes('%'))
-        data[e] = data[e] + '%';
-      if (e === 'quarterly_escalation' && !data[e].includes('%'))
-        data[e] = data[e] + '%';
-      if (e === 'brokerage' && !data[e].includes('%')) data[e] = data[e] + '%';
-      if (e === 'other_costs' && !data[e].includes('%'))
-        data[e] = data[e] + '%';
-      if (e === 'desired_return' && !data[e].includes('%'))
-        data[e] = data[e] + '%';
-    });
+      data.saleable_area_res = '';
+      data.inc_sale_price_res = '';
+      data.quarterly_escalation_res = '';
+
+    }
+    if (data.res_comm_both == 'Residential with Commercial Component') {
+      dataKeys.forEach((e) => {
+        if (e === 'quarterly_escalation_con' && !data[e].includes('%'))
+          data[e] = data[e] + '%';
+        if (e === 'quarterly_escalation_res' && !data[e].includes('%'))
+          data[e] = data[e] + '%';
+        if (e === 'quarterly_escalation' && !data[e].includes('%'))
+          data[e] = data[e] + '%';
+        if (e === 'brokerage' && !data[e].includes('%'))
+          data[e] = data[e] + '%';
+        if (e === 'other_costs' && !data[e].includes('%'))
+          data[e] = data[e] + '%';
+        if (e === 'desired_return' && !data[e].includes('%'))
+          data[e] = data[e] + '%';
+      });
+    }
+
     console.log('Submitted Data:', data);
     event.preventDefault();
 
@@ -135,7 +179,6 @@ export default function SectionBasics() {
       data,
       headers: { 'Content-Type': 'text/plain' },
       method: 'post',
-      
     }).then((res) => {
       console.log('Raw result', res);
       console.log('Result DATA', res.data);
