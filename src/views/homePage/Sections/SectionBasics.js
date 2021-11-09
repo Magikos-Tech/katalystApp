@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+// import request from 'request';
 import TableDisp from '../table.js';
 import Primary from 'components/Typography/Primary.js';
 // plugin that creates slider
@@ -87,30 +88,85 @@ export default function SectionBasics() {
     const dataKeys = Object.keys(data);
 
     dataKeys.forEach((e) => {
-      if (e === 'quarterly_escalation_con') data[e] = data[e] + '%';
-      if (e === 'quarterly_escalation_res') data[e] = data[e] + '%';
-      if (e === 'quarterly_escalation') data[e] = data[e] + '%';
-      if (e === 'brokerage') data[e] = data[e] + '%';
-      if (e === 'other_costs') data[e] = data[e] + '%';
-      if (e === 'desired_return') data[e] = data[e] + '%';
+      if (e === 'quarterly_escalation_con' && !data[e].includes('%'))
+        data[e] = data[e] + '%';
+      if (e === 'quarterly_escalation_res' && !data[e].includes('%'))
+        data[e] = data[e] + '%';
+      if (e === 'quarterly_escalation' && !data[e].includes('%'))
+        data[e] = data[e] + '%';
+      if (e === 'brokerage' && !data[e].includes('%')) data[e] = data[e] + '%';
+      if (e === 'other_costs' && !data[e].includes('%'))
+        data[e] = data[e] + '%';
+      if (e === 'desired_return' && !data[e].includes('%'))
+        data[e] = data[e] + '%';
     });
     console.log('Submitted Data:', data);
     event.preventDefault();
-    axios
-      .post(
-        `https://script.google.com/macros/s/AKfycbw_2GIZsjao_JjiPcTmP6Yirpxbaolbr1T5UBH87swMNXOIZlBt-MmGURKaPCxupP2A/exec`,
-        [{ data }]
-      )
-      .then((res) => {
-        // console.log(res);
-        console.log('Result DATA', res.data);
 
-        setTableData(res.data);
-      });
+    //1st working solution start
+    // axios
+    //   .post(
+    //     `https://script.google.com/macros/s/AKfycbw_2GIZsjao_JjiPcTmP6Yirpxbaolbr1T5UBH87swMNXOIZlBt-MmGURKaPCxupP2A/exec`,
+    //     [{ data }]
+    //   )
+    //   .then((res) => {
+    //     // console.log(res);
+    //     console.log('Result DATA', res.data);
+
+    //     setTableData(res.data);
+    //   });
+    // 1st working solution end.
+
+    //webhoook attempt
+    // axios
+    //   .post(
+    //     `https://webhook.site/1e98ef44-3f2a-413e-8e8a-333e3c362789`,
+    //   )
+    //   .then((res) => {
+    //     // console.log(res);
+    //     console.log('Result DATA', res);
+    //     setTableData(res.data);
+    //   });
+    //webhoook attempt end
+
+    //content type plain
+    axios({
+      url: `https://script.google.com/macros/s/AKfycbw_2GIZsjao_JjiPcTmP6Yirpxbaolbr1T5UBH87swMNXOIZlBt-MmGURKaPCxupP2A/exec`,
+      data,
+      headers: { 'Content-Type': 'text/plain' },
+      method: 'post',
+      
+    }).then((res) => {
+      console.log('Raw result', res);
+      console.log('Result DATA', res.data);
+      setTableData(JSON.parse(res.data));
+    });
+    //content type plain end
+
+    // request package start
+    // const options = {
+    //   url:'https://script.google.com/macros/s/AKfycbw_2GIZsjao_JjiPcTmP6Yirpxbaolbr1T5UBH87swMNXOIZlBt-MmGURKaPCxupP2A/exec' ,
+    //   followAllRedirects: true,
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   }
+    // };
+    // return new Promise(function (resolve, reject) {
+    //   request(options, function (err, res, body) {
+    //     if (res && (res.statusCode === 200 || res.statusCode === 201)) {
+    //       resolve(body.response_data);
+    //     } else {
+    //       console.log(err);
+    //       reject(false);
+    //     }
+    //   });
+    // });
+    //request package ends.
   };
+
   // const commOrResObj = { 1: 'Residential', 2: 'Commercial', 3: 'Res&Com' };
   const [commOrRes, setCommOrRes] = useState(0);
-
   const onDropDownClick = (e) => {
     if (e == 'Residential') {
       setCommOrRes(1);
@@ -121,7 +177,7 @@ export default function SectionBasics() {
     if (e == 'Commercial') {
       setCommOrRes(2);
       const name = 'res_comm_both';
-      setData({...data, [name]: e });
+      setData({ ...data, [name]: e });
       console.log(data);
     }
     if (e == 'Residential with Commercial Component') {
