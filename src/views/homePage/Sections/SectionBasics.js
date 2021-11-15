@@ -1116,30 +1116,34 @@ export default function SectionBasics() {
             <></>
           )}
         </div>
-        <div id='other'>
-          <div className={classes.title}>
-            <h3>Others</h3>
+        {dropdownValue === 2 ? (
+          <div id='other'>
+            <div className={classes.title}>
+              <h3>Others</h3>
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+              <GridItem xs={12} sm={12} md={6}>
+                <p style={{ paddingTop: '2rem', marginLeft: '2rem' }}>
+                  Desired return or discount rate?
+                </p>
+              </GridItem>
+              <GridItem xs={12} sm={12} md={6}>
+                <CustomInput
+                  labelText='%(Percentage)'
+                  id='float'
+                  name='desired_return'
+                  parentCallback={onChange}
+                  formControlProps={{
+                    fullWidth: true,
+                  }}
+                />
+              </GridItem>
+            </div>{' '}
           </div>
+        ) : (
+          <></>
+        )}
 
-          <div style={{ display: 'flex', justifyContent: 'space-around' }}>
-            <GridItem xs={12} sm={12} md={6}>
-              <p style={{ paddingTop: '2rem', marginLeft: '2rem' }}>
-                Desired return or discount rate?
-              </p>
-            </GridItem>
-            <GridItem xs={12} sm={12} md={6}>
-              <CustomInput
-                labelText='%(Percentage)'
-                id='float'
-                name='desired_return'
-                parentCallback={onChange}
-                formControlProps={{
-                  fullWidth: true,
-                }}
-              />
-            </GridItem>
-          </div>
-        </div>
         {/*  */}
 
         <div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -1147,13 +1151,12 @@ export default function SectionBasics() {
             {isSaving ? (
               <div
                 style={{
-          
                   'animation-duration': '1s',
                   'animation-iteration-count': 'infinite',
                 }}
-              >Loading 
+              >
+                Loading
                 <Icon>sync</Icon>
-                
               </div>
             ) : (
               'Submit'
