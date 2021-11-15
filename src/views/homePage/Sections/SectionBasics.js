@@ -1147,7 +1147,7 @@ export default function SectionBasics() {
             {isSaving ? (
               <div
                 style={{
-             
+          
                   'animation-duration': '1s',
                   'animation-iteration-count': 'infinite',
                 }}
