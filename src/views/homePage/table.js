@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Table from 'components/Table/Table.js';
 import style from 'assets/jss/material-kit-react/views/componentsSections/contentAreas.js';
 import { makeStyles } from '@material-ui/core/styles';
+
 const useStyles = makeStyles(style);
 const TableDisp = ({ data }) => {
   console.warn('data', data);
@@ -14,65 +15,90 @@ const TableDisp = ({ data }) => {
   const table2 = data[keyNames[1]];
   const table3 = data[keyNames[2]];
 
+ 
+
+  Object.keys(table1).forEach((key) => {
+    table1[key] =
+      typeof table1[key] === 'number' ? (table1[key] * 1).toFixed(2) : '';
+  });
+
+  Object.keys(table2).forEach((key) => {
+    table2[key] =
+      typeof table2[key] === 'number' ? (table2[key] * 1).toFixed(2) : '';
+  });
+
+  Object.keys(table3).forEach((key) => {
+    table3[key] =
+      typeof table3[key] === 'number' ? (table3[key] * 1).toFixed(2) : '';
+  });
+
+  table1['XIRR Unlevered'] = `${(table1['XIRR Unlevered'] * 100).toFixed(2)} %`;
+
   console.warn(table1, '\n', table2, '\n', table3);
+
   const classes = useStyles();
   return (
-    <div style={{display: 'flex', alignItems: 'start', justifyContent:'space-between'}}>
-    <Table
-      striped
-      tableHead={[keyNames[0],'Result']}
-      tableData={Object.entries(table1)}
-      
-      customCellClasses={[
-        classes.textCenter,
-        classes.padding0,
-        classes.textRight,
-        classes.textRight,
-      ]}
-      customClassesForCells={[0, 1, 5, 6]}
-      customHeadCellClasses={[
-        classes.textCenter,
-        classes.textRight,
-        classes.textRight,
-      ]}
-      customHeadClassesForCells={[0, 5, 6]}
-    />
-    <Table
-      striped
-      tableHead={[keyNames[1],'Result']}
-      tableData={Object.entries(table2)}
-      customCellClasses={[
-        classes.textCenter,
-        classes.padding0,
-        classes.textRight,
-        classes.textRight,
-      ]}
-      customClassesForCells={[0, 1, 5, 6]}
-      customHeadCellClasses={[
-        classes.textCenter,
-        classes.textRight,
-        classes.textRight,
-      ]}
-      customHeadClassesForCells={[0, 5, 6]}
-    />
-    <Table
-      striped
-      tableHead={[keyNames[2],'Result']}
-      tableData={Object.entries(table3)}
-      customCellClasses={[
-        classes.textCenter,
-        classes.padding0,
-        classes.textRight,
-        classes.textRight,
-      ]}
-      customClassesForCells={[0, 1, 5, 6]}
-      customHeadCellClasses={[
-        classes.textCenter,
-        classes.textRight,
-        classes.textRight,
-      ]}
-      customHeadClassesForCells={[0, 5, 6]}
-    />
+    <div
+      style={{
+        display: 'flex',
+        alignItems: 'start',
+        justifyContent: 'space-between',
+      }}
+    >
+      <Table
+        striped
+        tableHead={[keyNames[0], 'Result']}
+        tableData={Object.entries(table1)}
+        customCellClasses={[
+          classes.textCenter,
+          classes.padding0,
+          classes.textRight,
+          classes.textRight,
+        ]}
+        customClassesForCells={[0, 1, 5, 6]}
+        customHeadCellClasses={[
+          classes.textCenter,
+          classes.textRight,
+          classes.textRight,
+        ]}
+        customHeadClassesForCells={[0, 5, 6]}
+      />
+      <Table
+        striped
+        tableHead={[keyNames[1], 'Result']}
+        tableData={Object.entries(table2)}
+        customCellClasses={[
+          classes.textCenter,
+          classes.padding0,
+          classes.textRight,
+          classes.textRight,
+        ]}
+        customClassesForCells={[0, 1, 5, 6]}
+        customHeadCellClasses={[
+          classes.textCenter,
+          classes.textRight,
+          classes.textRight,
+        ]}
+        customHeadClassesForCells={[0, 5, 6]}
+      />
+      <Table
+        striped
+        tableHead={[keyNames[2], 'Result']}
+        tableData={Object.entries(table3)}
+        customCellClasses={[
+          classes.textCenter,
+          classes.padding0,
+          classes.textRight,
+          classes.textRight,
+        ]}
+        customClassesForCells={[0, 1, 5, 6]}
+        customHeadCellClasses={[
+          classes.textCenter,
+          classes.textRight,
+          classes.textRight,
+        ]}
+        customHeadClassesForCells={[0, 5, 6]}
+      />
     </div>
   );
 };

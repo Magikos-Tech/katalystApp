@@ -1,5 +1,7 @@
 import React from 'react';
 import axios from 'axios';
+import Icon from '@material-ui/core/Icon';
+
 // import request from 'request';
 import TableDisp from '../table.js';
 import Primary from 'components/Typography/Primary.js';
@@ -66,7 +68,7 @@ export default function SectionBasics() {
   });
 
   const [tableData, setTableData] = useState(null);
-
+  const [isSaving, setSaving] = useState(false);
   // const { emailId } = data;
 
   // const onChange = (e) => {
@@ -85,6 +87,8 @@ export default function SectionBasics() {
 
   const handleSubmit = (event) => {
     // console.log('Submitted Data:', data);
+    setSaving(true);
+    console.log(isSaving);
     const dataKeys = Object.keys(data);
     if (data.res_comm_both == 'Residential') {
       dataKeys.forEach((e) => {
@@ -101,7 +105,7 @@ export default function SectionBasics() {
         if (e === 'desired_return' && !data[e].includes('%'))
           data[e] = data[e] + '%';
       });
-  
+
       data.saleable_area = '';
       data.inc_sale_price = '';
       data.quarterly_escalation = '';
@@ -125,7 +129,6 @@ export default function SectionBasics() {
       data.saleable_area_res = '';
       data.inc_sale_price_res = '';
       data.quarterly_escalation_res = '';
-
     }
     if (data.res_comm_both == 'Residential with Commercial Component') {
       dataKeys.forEach((e) => {
@@ -179,11 +182,18 @@ export default function SectionBasics() {
       data,
       headers: { 'Content-Type': 'text/plain' },
       method: 'post',
-    }).then((res) => {
-      console.log('Raw result', res);
-      console.log('Result DATA', res.data);
-      setTableData(JSON.parse(res.data));
-    });
+    })
+      .then((res) => {
+        console.log('Raw result', res);
+        console.log('Result DATA', res.data);
+
+        setTableData(JSON.parse(res.data));
+        setSaving(false);
+      })
+      .catch((e) => {
+        console.log(e);
+        setSaving(false);
+      });
     //content type plain end
 
     // request package start
@@ -1058,46 +1068,53 @@ export default function SectionBasics() {
               />
             </GridItem>
           </div>
+          {commOrRes === 1 || commOrRes === 3 ? (
+            <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+              <GridItem xs={12} sm={12} md={6}>
+                <p style={{ paddingTop: '2rem', marginLeft: '2rem' }}>
+                  in how many quarters will you sell 100% of the residential
+                  inventory?
+                </p>
+              </GridItem>
+              <GridItem xs={12} sm={12} md={6}>
+                <CustomInput
+                  labelText=''
+                  id='float'
+                  name='quarters_to_sell_res'
+                  parentCallback={onChange}
+                  formControlProps={{
+                    fullWidth: true,
+                  }}
+                />
+              </GridItem>
+            </div>
+          ) : (
+            <></>
+          )}
 
-          <div style={{ display: 'flex', justifyContent: 'space-around' }}>
-            <GridItem xs={12} sm={12} md={6}>
-              <p style={{ paddingTop: '2rem', marginLeft: '2rem' }}>
-                in how many quarters will you sell 100% of the residential
-                inventory?
-              </p>
-            </GridItem>
-            <GridItem xs={12} sm={12} md={6}>
-              <CustomInput
-                labelText=''
-                id='float'
-                name='quarters_to_sell_res'
-                parentCallback={onChange}
-                formControlProps={{
-                  fullWidth: true,
-                }}
-              />
-            </GridItem>
-          </div>
-
-          <div style={{ display: 'flex', justifyContent: 'space-around' }}>
-            <GridItem xs={12} sm={12} md={6}>
-              <p style={{ paddingTop: '2rem', marginLeft: '2rem' }}>
-                in how many quarters will you sell 100% of the commercial
-                inventory?
-              </p>
-            </GridItem>
-            <GridItem xs={12} sm={12} md={6}>
-              <CustomInput
-                labelText=''
-                id='float'
-                name='quarters_to_sell_comm'
-                parentCallback={onChange}
-                formControlProps={{
-                  fullWidth: true,
-                }}
-              />
-            </GridItem>
-          </div>
+          {commOrRes === 2 || commOrRes === 3 ? (
+            <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+              <GridItem xs={12} sm={12} md={6}>
+                <p style={{ paddingTop: '2rem', marginLeft: '2rem' }}>
+                  in how many quarters will you sell 100% of the commercial
+                  inventory?
+                </p>
+              </GridItem>
+              <GridItem xs={12} sm={12} md={6}>
+                <CustomInput
+                  labelText=''
+                  id='float'
+                  name='quarters_to_sell_comm'
+                  parentCallback={onChange}
+                  formControlProps={{
+                    fullWidth: true,
+                  }}
+                />
+              </GridItem>
+            </div>
+          ) : (
+            <></>
+          )}
         </div>
         <div id='other'>
           <div className={classes.title}>
@@ -1123,10 +1140,24 @@ export default function SectionBasics() {
             </GridItem>
           </div>
         </div>
+        {/*  */}
 
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <Button type='button' color='primary' onClick={handleSubmit}>
-            Submit
+            {isSaving ? (
+              <div
+                style={{
+             
+                  'animation-duration': '1s',
+                  'animation-iteration-count': 'infinite',
+                }}
+              >Loading 
+                <Icon>sync</Icon>
+                
+              </div>
+            ) : (
+              'Submit'
+            )}
           </Button>
         </div>
         <div>
