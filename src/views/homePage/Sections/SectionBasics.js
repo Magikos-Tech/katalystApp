@@ -82,7 +82,7 @@ export default function SectionBasics() {
     const { name, value } = obj;
     setData({ ...data, [name]: value });
 
-    console.log('Now the data is : ', data);
+    // console.log('Now the data is : ', data);
   };
 
   const handleSubmit = (event) => {
@@ -102,7 +102,7 @@ export default function SectionBasics() {
           data[e] = data[e] + '%';
         if (e === 'other_costs' && !data[e].includes('%'))
           data[e] = data[e] + '%';
-        if (e === 'desired_return' && !data[e].includes('%'))
+        if (e === 'desired_return' && !data[e].includes('%') && dropdownValue === 2)
           data[e] = data[e] + '%';
       });
 
@@ -122,7 +122,7 @@ export default function SectionBasics() {
           data[e] = data[e] + '%';
         if (e === 'other_costs' && !data[e].includes('%'))
           data[e] = data[e] + '%';
-        if (e === 'desired_return' && !data[e].includes('%'))
+        if (e === 'desired_return' && !data[e].includes('%')&& dropdownValue === 2)
           data[e] = data[e] + '%';
       });
 
@@ -142,7 +142,7 @@ export default function SectionBasics() {
           data[e] = data[e] + '%';
         if (e === 'other_costs' && !data[e].includes('%'))
           data[e] = data[e] + '%';
-        if (e === 'desired_return' && !data[e].includes('%'))
+        if (e === 'desired_return' && !data[e].includes('%') && dropdownValue === 2)
           data[e] = data[e] + '%';
       });
     }

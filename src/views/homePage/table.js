@@ -16,30 +16,16 @@ const TableDisp = ({ data }) => {
   const table2 = data[keyNames[1]];
   const table3 = data[keyNames[2]];
 
-  Object.keys(table1).forEach((key) => {
-    if (key == 'XIRR Unlevered') console.log('yatra');
-    table1[key] =
-      // typeof table1[key] == 'number' ? (table1[key] * 1).toFixed(2) : '';
-      key == 'XIRR Unlevered'
-        ? (Number(table1[key])*100).toFixed(2)
-        : Number(table1[key] * 1).toFixed(2);
-  });
-
-  Object.keys(table2).forEach((key) => {
-    console.log(typeof table2[key]);
-    table2[key] =
-      // typeof table2[key] == 'number' ? (table2[key] * 1).toFixed(2) : '';
-      Number(table2[key] * 1).toFixed(2);
-  });
-
-  Object.keys(table3).forEach((key) => {
-    table3[key] =
-      // typeof table3[key] == 'number' ? (table3[key] * 1).toFixed(2) : '';
-      Number(table3[key] * 1).toFixed(2);
-  });
-
-  // table1['XIRR Unlevered'] = `${(table1['XIRR Unlevered'] / 100).toFixed(2)} %`;
-  // table1['XIRR Unlevered'] =   table1['XIRR Unlevered']+'%'
+  // Object.keys(table1).forEach((key) => {
+  //   if (key == 'XIRR Unlevered')
+  //     table1[key] = (Number(table1[key]) * 100).toFixed(2);
+  //   table1[key] =
+  //     // typeof table1[key] == 'number' ? (table1[key] * 1).toFixed(2) : '';
+  //     // key == 'XIRR Unlevered'
+  //     //   ? table1[key]n
+  //     //   : Number(table1[key] * 1).toFixed(2);
+  //     (Number(table1[key]) * 1).toFixed(2);
+  // });
 
   console.warn(table1, '\n', table2, '\n', table3);
 
