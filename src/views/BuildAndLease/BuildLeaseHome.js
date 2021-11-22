@@ -15,18 +15,9 @@ import GridItem from 'components/Grid/GridItem.js';
 import Parallax from 'components/Parallax/Parallax.js';
 // sections for this page
 import HeaderLinks from 'components/Header/HeaderLinks.js';
-import SectionBasics from './Sections/SectionBasics.js';
-// import SectionNavbars from './Sections/SectionNavbars.js';
-// import SectionTabs from './Sections/SectionTabs.js';
-// import SectionPills from './Sections/SectionPills.js';
-// import SectionNotifications from './Sections/SectionNotifications.js';
-// import SectionTypography from './Sections/SectionTypography.js';
-// import SectionJavascript from './Sections/SectionJavascript.js';
-// import SectionCarousel from './Sections/SectionCarousel.js';
-// import SectionCompletedExamples from './Sections/SectionCompletedExamples.js';
-// import SectionLogin from './Sections/SectionLogin.js';
-import { Link } from 'react-router-dom';
+import BuildLease from "views/BuildAndLease/BuildLease";
 import styles from 'assets/jss/material-kit-react/views/components.js';
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles(styles);
 
@@ -37,8 +28,8 @@ export default function Components(props) {
     <div>
       <div>
         <Header
-          brand='Build and Sell'
-          brand2={<Link to="/build-and-lease" style={{color: "inherit"}}>Build and Lease</Link>}
+          brand={<Link to="/" style={{color: "inherit"}}>Build and Sell</Link>}
+          brand2='Build and Lease'
           rightLinks={<HeaderLinks />}
           fixed
           color='transparent'
@@ -54,7 +45,7 @@ export default function Components(props) {
           <GridContainer>
             <GridItem>
               <div className={classes.brand}>
-                <h1 className={classes.title}>Build and Sell </h1>
+                <h1 className={classes.title}>Build and Lease </h1>
                 <h3 className={classes.subtitle}>
                   A calculation engine based on Google Spreadsheet.
                 </h3>
@@ -65,17 +56,7 @@ export default function Components(props) {
       </Parallax>
 
       <div className={classNames(classes.main, classes.mainRaised)}>
-        <SectionBasics />
-        {/* <SectionNavbars />
-        <SectionTabs />
-        <SectionPills />
-        <SectionNotifications />
-        <SectionTypography />
-        <SectionJavascript />
-        <SectionCarousel />
-        <SectionCompletedExamples />
-        <SectionLogin /> */}
-  
+        <BuildLease />
       </div>
       <Footer />
     </div>

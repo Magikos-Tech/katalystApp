@@ -9,7 +9,7 @@ import 'assets/scss/material-kit-react.scss?v=1.10.0';
 import Components from 'views/Components/Components.js';
 import BuildAndSell from 'views/BuildAndSell/BuildAndSellForm';
 import HomePage from 'views/homePage/homePage';
-
+import BuildAndLease from 'views/BuildAndLease/BuildLeaseHome.js'
 var hist = createBrowserHistory();
 
 ReactDOM.render(
@@ -18,6 +18,7 @@ ReactDOM.render(
       <Route path='/build-and-sell' exact component={BuildAndSell} />
       <Route path='/components' exact component={Components} />
       <Route path='/' exact component={HomePage} />
+      <Route path='/build-and-lease' exact component={BuildAndLease} />
     </Switch>
   </Router>,
   document.getElementById('root')
