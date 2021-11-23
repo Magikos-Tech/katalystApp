@@ -7,7 +7,7 @@ import FormControl from "@material-ui/core/FormControl";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import CustomInput from "components/CustomInput/CustomInput";
 import Button from "components/CustomButtons/Button"
-import "./BuildLease.css";
+import "views/BuildAndLease/BuildLease.css";
 
 const useStyles = makeStyles(styles);
 import { useState } from "react";
