@@ -411,7 +411,6 @@ export default function SectionBasics() {
     },
   };
 
-
   return (
     <div className={classes.sections}>
       <div className={classes.container}>
@@ -419,11 +418,16 @@ export default function SectionBasics() {
           <h3>Personal Information</h3>
         </div>
         <div id='email'>
-          <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: "wrap", alignItems: "flex-end" }}>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              flexWrap: 'wrap',
+              alignItems: 'flex-end',
+            }}
+          >
             <GridItem xs={12} sm={12} md={6}>
-              <p>
-                Your email address
-              </p>
+              <p>Your email address</p>
             </GridItem>
             <GridItem xs={12} sm={12} md={6}>
               <CustomInput
@@ -445,11 +449,16 @@ export default function SectionBasics() {
             </GridItem>
           </div>
 
-          <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: "wrap", alignItems: "flex-end" }}>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              flexWrap: 'wrap',
+              alignItems: 'flex-end',
+            }}
+          >
             <GridItem xs={12} sm={12} md={6}>
-              <p>
-                Tell us about yourself!
-              </p>
+              <p>Tell us about yourself!</p>
             </GridItem>
 
             <GridItem xs={12} sm={12} md={6}>
@@ -478,16 +487,23 @@ export default function SectionBasics() {
             <h3>Choose your options</h3>
           </div>
           <div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: "wrap", padding: "0 1rem 2rem 1rem" }}>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                flexWrap: 'wrap',
+                padding: '0 1rem 2rem 1rem',
+              }}
+            >
               <h5>We&apos;ll analyse it from your point of view! - 1 </h5>
-              <div style={{ width: "300px" }}>
+              <div style={{ width: '300px' }}>
                 <div style={innerStyles.dropdownStyle}>
                   <CustomDropdown
                     buttonText='Select'
                     customButtonStyle={{
                       backgroundColor: '#e9ecef',
                       color: '#212529',
-                      width: "100%"
+                      width: '100%',
                     }}
                     dropdownList={[
                       { divider: true },
@@ -501,8 +517,8 @@ export default function SectionBasics() {
                 <div>
                   {dropdownValue === 1 ? (
                     <Primary>
-                      I want to see returns (IRR) at a particular price and business
-                      plan
+                      I want to see returns (IRR) at a particular price and
+                      business plan
                     </Primary>
                   ) : (
                     <></>
@@ -520,32 +536,39 @@ export default function SectionBasics() {
             </div>
           </div>
           <div className='dropdown'>
-            <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: "wrap", padding: "0 1rem 2rem 1rem" }}>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                flexWrap: 'wrap',
+                padding: '0 1rem 2rem 1rem',
+              }}
+            >
               <h5>We&apos;ll analyse it from your point of view! - 2</h5>
-              <div style={{ width: "300px" }}>
+              <div style={{ width: '300px' }}>
                 <div style={innerStyles.dropdownStyle}>
                   <CustomDropdown
                     customButtonStyle={{
                       backgroundColor: '#e9ecef',
                       color: '#212529',
-                      width: "100%"
+                      width: '100%',
                     }}
                     buttonText='Select'
                     onClick={dropdownPov2}
                     dropdownList={
                       dropdownValue == 1
                         ? [
-                          { divider: true },
-                          'I am buying the land and developing the project myself',
-                          { divider: true },
-                          'I am buying the land as a financial investor and will do a Revenue Share JDA with a developer',
-                        ]
+                            { divider: true },
+                            'I am buying the land and developing the project myself',
+                            { divider: true },
+                            'I am buying the land as a financial investor and will do a Revenue Share JDA with a developer',
+                          ]
                         : [
-                          { divider: true },
-                          'I want to value the asset basis the total project free cashflows',
-                          { divider: true },
-                          'I want to value the asset basis land owners share of cashflows in a Revenue Share JDA with a developer',
-                        ]
+                            { divider: true },
+                            'I want to value the asset basis the total project free cashflows',
+                            { divider: true },
+                            'I want to value the asset basis land owners share of cashflows in a Revenue Share JDA with a developer',
+                          ]
                     }
                   />
                 </div>
@@ -575,8 +598,8 @@ export default function SectionBasics() {
                   )}
                   {pov2 === 4 ? (
                     <Primary>
-                      I want to value the asset basis land owners share of cashflows
-                      in a Revenue Share JDA with a developer
+                      I want to value the asset basis land owners share of
+                      cashflows in a Revenue Share JDA with a developer
                     </Primary>
                   ) : (
                     <></>
@@ -586,18 +609,25 @@ export default function SectionBasics() {
             </div>
           </div>
           <div className='dropdown'>
-            <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: "wrap", padding: "0 1rem 2rem 1rem" }}>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                flexWrap: 'wrap',
+                padding: '0 1rem 2rem 1rem',
+              }}
+            >
               <h5>
                 Is it residential or commercial or residential with commercial
                 component?
               </h5>
-              <div style={{ width: "300px" }}>
+              <div style={{ width: '300px' }}>
                 <div style={innerStyles.dropdownStyle}>
                   <CustomDropdown
                     customButtonStyle={{
                       backgroundColor: '#e9ecef',
                       color: '#212529',
-                      width: "100%"
+                      width: '100%',
                     }}
                     onClick={onDropDownClick}
                     buttonText='Select'
@@ -629,17 +659,24 @@ export default function SectionBasics() {
             </div>
           </div>
           <div className='dropdown'>
-            <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: "wrap", padding: "0 1rem 2rem 1rem" }}>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                flexWrap: 'wrap',
+                padding: '0 1rem 2rem 1rem',
+              }}
+            >
               <h5>
                 Would you like to evaluate your project in INR mn or INR crore?
               </h5>
-              <div style={{ width: "300px" }}>
+              <div style={{ width: '300px' }}>
                 <div style={innerStyles.dropdownStyle}>
                   <CustomDropdown
                     customButtonStyle={{
                       backgroundColor: '#e9ecef',
                       color: '#212529',
-                      width: "100%"
+                      width: '100%',
                     }}
                     buttonText='Select'
                     onClick={currencySelect}
@@ -665,11 +702,16 @@ export default function SectionBasics() {
           <div className={classes.title}>
             <h3>Assumption</h3>
           </div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: "wrap", alignItems: "flex-end" }}>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              flexWrap: 'wrap',
+              alignItems: 'flex-end',
+            }}
+          >
             <GridItem xs={12} sm={12} md={6}>
-              <p>
-                how big is the land parcel?
-              </p>
+              <p>how big is the land parcel?</p>
             </GridItem>
             <GridItem xs={12} sm={12} md={6}>
               <CustomInput
@@ -683,7 +725,14 @@ export default function SectionBasics() {
               />
             </GridItem>
           </div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: "wrap", alignItems: "flex-end" }}>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              flexWrap: 'wrap',
+              alignItems: 'flex-end',
+            }}
+          >
             <GridItem xs={12} sm={12} md={6}>
               <p>
                 whats the cost of your land (we&apos;re assuming upfront
@@ -711,11 +760,16 @@ export default function SectionBasics() {
             <div className={classes.title}>
               <h3>Residential</h3>
             </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: "wrap", alignItems: "flex-end" }}>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                flexWrap: 'wrap',
+                alignItems: 'flex-end',
+              }}
+            >
               <GridItem xs={12} sm={12} md={6}>
-                <p>
-                  how much saleable area in the project?
-                </p>
+                <p>how much saleable area in the project?</p>
               </GridItem>
 
               <GridItem xs={12} sm={12} md={6}>
@@ -731,11 +785,16 @@ export default function SectionBasics() {
               </GridItem>
             </div>
 
-            <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: "wrap", alignItems: "flex-end" }}>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                flexWrap: 'wrap',
+                alignItems: 'flex-end',
+              }}
+            >
               <GridItem xs={12} sm={12} md={6}>
-                <p>
-                  Whats your all inclusive sales price?
-                </p>
+                <p>Whats your all inclusive sales price?</p>
               </GridItem>
               <GridItem xs={12} sm={12} md={6}>
                 <CustomInput
@@ -750,11 +809,16 @@ export default function SectionBasics() {
               </GridItem>
             </div>
 
-            <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: "wrap", alignItems: "flex-end" }}>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                flexWrap: 'wrap',
+                alignItems: 'flex-end',
+              }}
+            >
               <GridItem xs={12} sm={12} md={6}>
-                <p>
-                  Would you like to assume any quarterly escalation?
-                </p>
+                <p>Would you like to assume any quarterly escalation?</p>
               </GridItem>
               <GridItem xs={12} sm={12} md={6}>
                 <CustomInput
@@ -778,11 +842,16 @@ export default function SectionBasics() {
             <div className={classes.title}>
               <h3>Commercial</h3>
             </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: "wrap", alignItems: "flex-end" }}>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                flexWrap: 'wrap',
+                alignItems: 'flex-end',
+              }}
+            >
               <GridItem xs={12} sm={12} md={6}>
-                <p>
-                  How much saleable area in the project?
-                </p>
+                <p>How much saleable area in the project?</p>
               </GridItem>
 
               <GridItem xs={12} sm={12} md={6}>
@@ -798,11 +867,16 @@ export default function SectionBasics() {
               </GridItem>
             </div>
 
-            <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: "wrap", alignItems: "flex-end" }}>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                flexWrap: 'wrap',
+                alignItems: 'flex-end',
+              }}
+            >
               <GridItem xs={12} sm={12} md={6}>
-                <p>
-                  Whats your all inclusive sales price?
-                </p>
+                <p>Whats your all inclusive sales price?</p>
               </GridItem>
               <GridItem xs={12} sm={12} md={6}>
                 <CustomInput
@@ -817,11 +891,16 @@ export default function SectionBasics() {
               </GridItem>
             </div>
 
-            <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: "wrap", alignItems: "flex-end" }}>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                flexWrap: 'wrap',
+                alignItems: 'flex-end',
+              }}
+            >
               <GridItem xs={12} sm={12} md={6}>
-                <p>
-                  Would you like to assume any quarterly escalation?
-                </p>
+                <p>Would you like to assume any quarterly escalation?</p>
               </GridItem>
               <GridItem xs={12} sm={12} md={6}>
                 <CustomInput
@@ -846,19 +925,26 @@ export default function SectionBasics() {
           </div>
 
           <div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: "wrap", padding: "0 1rem 2rem 1rem" }}>
-              <h5 style={{ width: "400px" }}>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                flexWrap: 'wrap',
+                padding: '0 1rem 2rem 1rem',
+              }}
+            >
+              <h5 style={{ width: '400px' }}>
                 Would you like to calculate construction cost on saleable area
                 or add a separate construction area / built up area
               </h5>
-              <div style={{ width: "300px" }}>
+              <div style={{ width: '300px' }}>
                 <div style={innerStyles.dropdownStyle}>
                   <CustomDropdown
                     buttonText='Select'
                     customButtonStyle={{
                       backgroundColor: '#e9ecef',
                       color: '#212529',
-                      width: "100%"
+                      width: '100%',
                     }}
                     onClick={builtupOrSaleable}
                     dropdownList={[
@@ -870,19 +956,33 @@ export default function SectionBasics() {
                   />
                 </div>
                 <div>
-                  {builtupSaleable === 1 ? <Primary>Built Up Area</Primary> : <></>}
-                  {builtupSaleable === 2 ? <Primary>Saleable Area</Primary> : <></>}
+                  {builtupSaleable === 1 ? (
+                    <Primary>Built Up Area</Primary>
+                  ) : (
+                    <></>
+                  )}
+                  {builtupSaleable === 2 ? (
+                    <Primary>Saleable Area</Primary>
+                  ) : (
+                    <></>
+                  )}
                 </div>
               </div>
             </div>
           </div>
 
           {builtupSaleable == 1 && builtupSaleable !== 2 ? (
-            <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: "wrap", alignItems: "flex-end", padding: "0 0rem 2rem 0rem" }}>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                flexWrap: 'wrap',
+                alignItems: 'flex-end',
+                padding: '0 0rem 2rem 0rem',
+              }}
+            >
               <GridItem xs={12} sm={12} md={6}>
-                <p>
-                  how much built up area in the project?
-                </p>
+                <p>how much built up area in the project?</p>
               </GridItem>
               <GridItem xs={12} sm={12} md={6}>
                 <CustomInput
@@ -900,11 +1000,17 @@ export default function SectionBasics() {
             <></>
           )}
 
-          <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: "wrap", alignItems: "flex-end", padding: "0 0rem 2rem 0rem"}}>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              flexWrap: 'wrap',
+              alignItems: 'flex-end',
+              padding: '0 0rem 2rem 0rem',
+            }}
+          >
             <GridItem xs={12} sm={12} md={6}>
-              <p>
-                What&apos;s your cons cost estimate?
-              </p>
+              <p>What&apos;s your cons cost estimate?</p>
             </GridItem>
 
             <GridItem xs={12} sm={12} md={6}>
@@ -920,7 +1026,15 @@ export default function SectionBasics() {
             </GridItem>
           </div>
 
-          <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: "wrap", alignItems: "flex-end", padding: "0 0rem 2rem 0rem" }}>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              flexWrap: 'wrap',
+              alignItems: 'flex-end',
+              padding: '0 0rem 2rem 0rem',
+            }}
+          >
             <GridItem xs={12} sm={12} md={6}>
               <p>
                 Would you like to assume any quarterly escalation in cons cost?
@@ -939,11 +1053,17 @@ export default function SectionBasics() {
             </GridItem>
           </div>
 
-          <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: "wrap", alignItems: "flex-end", padding: "0 0rem 2rem 0rem" }}>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              flexWrap: 'wrap',
+              alignItems: 'flex-end',
+              padding: '0 0rem 2rem 0rem',
+            }}
+          >
             <GridItem xs={12} sm={12} md={6}>
-              <p>
-                what % brokerage will u pay?
-              </p>
+              <p>what % brokerage will u pay?</p>
             </GridItem>
             <GridItem xs={12} sm={12} md={6}>
               <CustomInput
@@ -958,7 +1078,15 @@ export default function SectionBasics() {
             </GridItem>
           </div>
 
-          <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: "wrap", alignItems: "flex-end", padding: "0 0rem 2rem 0rem" }}>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              flexWrap: 'wrap',
+              alignItems: 'flex-end',
+              padding: '0 0rem 2rem 0rem',
+            }}
+          >
             <GridItem xs={12} sm={12} md={6}>
               <p>
                 load up any upfront costs u may incur! (example - approval
@@ -979,11 +1107,17 @@ export default function SectionBasics() {
             </GridItem>
           </div>
 
-          <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: "wrap", alignItems: "flex-end", padding: "0 0rem 2rem 0rem" }}>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              flexWrap: 'wrap',
+              alignItems: 'flex-end',
+              padding: '0 0rem 2rem 0rem',
+            }}
+          >
             <GridItem xs={12} sm={12} md={6}>
-              <p>
-                load up any other costs u want to!
-              </p>
+              <p>load up any other costs u want to!</p>
             </GridItem>
 
             <GridItem xs={12} sm={12} md={6}>
@@ -999,7 +1133,15 @@ export default function SectionBasics() {
             </GridItem>
           </div>
 
-          <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: "wrap", alignItems: "flex-end", padding: "0 0rem 2rem 0rem" }}>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              flexWrap: 'wrap',
+              alignItems: 'flex-end',
+              padding: '0 0rem 2rem 0rem',
+            }}
+          >
             <GridItem xs={12} sm={12} md={6}>
               <p>
                 load up any other costs u want to! (spread over duration of
@@ -1026,7 +1168,15 @@ export default function SectionBasics() {
             <h3>Timelines</h3>
           </div>
 
-          <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: "wrap", alignItems: "flex-end", padding: "0 0rem 2rem 0rem" }}>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              flexWrap: 'wrap',
+              alignItems: 'flex-end',
+              padding: '0 0rem 2rem 0rem',
+            }}
+          >
             <GridItem xs={12} sm={12} md={6}>
               <p>
                 after how many quarters of buying land will project be launched?
@@ -1045,11 +1195,17 @@ export default function SectionBasics() {
             </GridItem>
           </div>
 
-          <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: "wrap", alignItems: "flex-end", padding: "0 0rem 2rem 0rem" }}>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              flexWrap: 'wrap',
+              alignItems: 'flex-end',
+              padding: '0 0rem 2rem 0rem',
+            }}
+          >
             <GridItem xs={12} sm={12} md={6}>
-              <p>
-                in how many quarters will construction be completed?
-              </p>
+              <p>in how many quarters will construction be completed?</p>
             </GridItem>
             <GridItem xs={12} sm={12} md={6}>
               <CustomInput
@@ -1064,7 +1220,15 @@ export default function SectionBasics() {
             </GridItem>
           </div>
           {commOrRes === 1 || commOrRes === 3 ? (
-            <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: "wrap", alignItems: "flex-end", padding: "0 0rem 2rem 0rem" }}>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                flexWrap: 'wrap',
+                alignItems: 'flex-end',
+                padding: '0 0rem 2rem 0rem',
+              }}
+            >
               <GridItem xs={12} sm={12} md={6}>
                 <p>
                   in how many quarters will you sell 100% of the residential
@@ -1088,7 +1252,15 @@ export default function SectionBasics() {
           )}
 
           {commOrRes === 2 || commOrRes === 3 ? (
-            <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: "wrap", alignItems: "flex-end", padding: "0 0rem 2rem 0rem" }}>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                flexWrap: 'wrap',
+                alignItems: 'flex-end',
+                padding: '0 0rem 2rem 0rem',
+              }}
+            >
               <GridItem xs={12} sm={12} md={6}>
                 <p>
                   in how many quarters will you sell 100% of the commercial
@@ -1116,11 +1288,17 @@ export default function SectionBasics() {
             <div className={classes.title}>
               <h3>Others</h3>
             </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: "wrap", alignItems: "flex-end", padding: "0 0rem 2rem 0rem" }}>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                flexWrap: 'wrap',
+                alignItems: 'flex-end',
+                padding: '0 0rem 2rem 0rem',
+              }}
+            >
               <GridItem xs={12} sm={12} md={6}>
-                <p>
-                  Desired return or discount rate?
-                </p>
+                <p>Desired return or discount rate?</p>
               </GridItem>
               <GridItem xs={12} sm={12} md={6}>
                 <CustomInput
@@ -1162,6 +1340,6 @@ export default function SectionBasics() {
           <TableDisp data={tableData} />
         </div>
       </div>
-    </div >
+    </div>
   );
 }
