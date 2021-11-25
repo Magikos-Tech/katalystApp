@@ -66,6 +66,36 @@ export default function SectionBasics() {
     desired_return: '', //%
   });
 
+  const [error, setError] = useState({
+    email: false,
+    description: false,
+    pov1: false,
+    pov2: false,
+    res_comm_both: false,
+    eval_mn_crore: false,
+    land_parcel: false,
+    cost_of_land: false,
+    saleable_area_res: false,
+    inc_sale_price_res: false,
+    quarterly_escalation_res: false, //%
+    saleable_area: false,
+    inc_sale_price: false,
+    quarterly_escalation: false, //%
+    built_up_area: false,
+    total_built_up_area: false,
+    cost_estimate: false,
+    quarterly_escalation_con: false,
+    brokerage: false, //%
+    upfront_costs: false,
+    other_costs: false, //%
+    other_costs_over_duration: false,
+    quarters_to_land_project: false,
+    quarters_to_complete_construction: false,
+    quarters_to_sell_res: false,
+    quarters_to_sell_comm: false,
+    desired_return: false, //%
+  });
+
   const [tableData, setTableData] = useState(null);
   const [isSaving, setSaving] = useState(false);
   // const { emailId } = data;
@@ -76,18 +106,37 @@ export default function SectionBasics() {
   //   setData({ ...data, [e.target.name]: e.target.value });
   // };
 
+  function isNumber(str) {
+    if (typeof str != "string") return false // we only process strings!
+    // could also coerce to string: str = ""+str
+    return !isNaN(str) && !isNaN(parseFloat(str))
+  }
+
+  function verfiyEmail(email) {
+    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+  }
+
   const onChange = (obj) => {
     // console.log(obj);
     const { name, value } = obj;
+    if (name == "email") {
+      if (value == "" || !verfiyEmail(value)) error[name] = true;
+      else error[name] = false;
+    } else if (name == "description") {
+      if (value == "") error[name] = true;
+      else error[name] = false;
+    } else {
+      if (value == "" || !isNumber(value)) error[name] = true;
+      else error[name] = false
+    }
     setData({ ...data, [name]: value });
-
-    console.log('Now the data is : ', data);
+    setError({ ...error });
   };
 
   const handleSubmit = (event) => {
+    event.preventDefault();
     // console.log('Submitted Data:', data);
-    setSaving(true);
-    console.log(isSaving);
     const dataKeys = Object.keys(data);
     if (data.res_comm_both == 'Residential') {
       dataKeys.forEach((e) => {
@@ -147,102 +196,172 @@ export default function SectionBasics() {
     }
 
     console.log('Submitted Data:', data);
-    event.preventDefault();
-
-    //1st working solution start
-    // axios
-    //   .post(
-    //     `https://script.google.com/macros/s/AKfycbw_2GIZsjao_JjiPcTmP6Yirpxbaolbr1T5UBH87swMNXOIZlBt-MmGURKaPCxupP2A/exec`,
-    //     [{ data }]
-    //   )
-    //   .then((res) => {
-    //     // console.log(res);
-    //     console.log('Result DATA', res.data);
-
-    //     setTableData(res.data);
-    //   });
-    // 1st working solution end.
-
-    //webhoook attempt
-    // axios
-    //   .post(
-    //     `https://webhook.site/1e98ef44-3f2a-413e-8e8a-333e3c362789`,
-    //   )
-    //   .then((res) => {
-    //     // console.log(res);
-    //     console.log('Result DATA', res);
-    //     setTableData(res.data);
-    //   });
-    //webhoook attempt end
-
-    //content type plain
-    axios({
-      url: `https://script.google.com/macros/s/AKfycbw_2GIZsjao_JjiPcTmP6Yirpxbaolbr1T5UBH87swMNXOIZlBt-MmGURKaPCxupP2A/exec`,
-      data,
-      headers: { 'Content-Type': 'text/plain' },
-      method: 'post',
-    })
-      .then((res) => {
-        console.log('Raw result', res);
-        console.log('Result DATA', res.data);
-
-        setTableData(JSON.parse(res.data));
-        setSaving(false);
+    let result = true;
+    if (data.pov1 === "") {
+      result = false;
+      error["pov1"] = true;
+    } else {
+      if (data.pov1 === "I want to value the asset (NPV) basis a business plan and discount rate or desired return") {
+        if (!isNumber(data.desired_return.replace("%", ""))) {
+          result = false;
+          error["desired_return"] = true;
+        }
+      }
+    }
+    if (data.pov2 === "") {
+      result = false;
+      error["pov2"] = true;
+    }
+    if (data.res_comm_both === "") {
+      result = false;
+      error["res_comm_both"] = true;
+    } else {
+      if (data.res_comm_both === "Residential" || data.res_comm_both === "Residential with Commercial Component") {
+        if (!isNumber(data.saleable_area_res)) {
+          result = false;
+          error["saleable_area_res"] = true;
+        }
+        if (!isNumber(data.inc_sale_price_res)) {
+          result = false;
+          error["inc_sale_price_res"] = true;
+        }
+        if (!isNumber(data.quarterly_escalation_res.replace("%", ""))) {
+          result = false;
+          error["quarterly_escalation_res"] = true;
+        }
+        if (data.res_comm_both !== "Residential with Commercial Component") {
+          data.saleable_area = "";
+          data.inc_sale_price = "";
+          data.quarterly_escalation = "";
+        }
+      }
+      if (data.res_comm_both === "Commercial" || data.res_comm_both === "Residential with Commercial Component") {
+        if (!isNumber(data.saleable_area)) {
+          result = false;
+          error["saleable_area"] = true;
+        }
+        if (!isNumber(data.inc_sale_price)) {
+          result = false;
+          error["inc_sale_price"] = true;
+        }
+        if (!isNumber(data.quarterly_escalation.replace("%", ""))) {
+          result = false;
+          error["quarterly_escalation"] = true;
+        }
+        if (data.res_comm_both !== "Residential with Commercial Component") {
+          data.saleable_area_res = "";
+          data.inc_sale_price_res = "";
+          data.quarterly_escalation_res = "";
+        }
+      }
+    }
+    if (data.built_up_area === "") {
+      result = false;
+      error["built_up_area"] = true;
+    } else {
+      if (data.built_up_area === "Built Up Area") {
+        if (!isNumber(data.total_built_up_area)) {
+          result = false;
+          error["total_built_up_area"] = true;
+        }
+      }
+    }
+    if (!verfiyEmail(data.email)) {
+      result = false;
+      error["email"] = true;
+    }
+    if (data.description === "") {
+      result = false;
+      error["description"] = true;
+    }
+    if (data.eval_mn_crore === "") {
+      result = false;
+      error["eval_mn_crore"] = true;
+    }
+    if (!isNumber(data.land_parcel)) {
+      result = false;
+      error["land_parcel"] = true;
+    }
+    if (!isNumber(data.cost_of_land)) {
+      result = false;
+      error["cost_of_land"] = true;
+    }
+    if (!isNumber(data.cost_estimate)) {
+      result = false;
+      error["cost_estimate"] = true;
+    }
+    if (!isNumber(data.quarterly_escalation_con.replace("%", ""))) {
+      result = false;
+      error["quarterly_escalation_con"] = true;
+    }
+    if (!isNumber(data.brokerage.replace("%", ""))) {
+      result = false;
+      error["brokerage"] = true;
+    }
+    if (!isNumber(data.upfront_costs)) {
+      result = false;
+      error["upfront_costs"] = true;
+    }
+    if (!isNumber(data.other_costs.replace("%", ""))) {
+      result = false;
+      error["other_costs"] = true;
+    }
+    if (!isNumber(data.other_costs_over_duration)) {
+      result = false;
+      error["other_costs_over_duration"] = true;
+    }
+    if (!isNumber(data.quarters_to_land_project)) {
+      result = false;
+      error["quarters_to_land_project"] = true;
+    }
+    if (!isNumber(data.quarters_to_complete_construction)) {
+      result = false;
+      error["quarters_to_complete_construction"] = true;
+    }
+    setError({ ...error });
+    setSaving(result);
+    if (result) {
+      axios({
+        url: `https://script.google.com/macros/s/AKfycbw_2GIZsjao_JjiPcTmP6Yirpxbaolbr1T5UBH87swMNXOIZlBt-MmGURKaPCxupP2A/exec`,
+        data,
+        headers: { 'Content-Type': 'text/plain' },
+        method: 'post',
       })
-      .catch((e) => {
-        console.log(e);
-        setSaving(false);
-      });
-    //content type plain end
+        .then((res) => {
+          console.log('Raw result', res);
+          console.log('Result DATA', res.data);
 
-    // request package start
-    // const options = {
-    //   url:'https://script.google.com/macros/s/AKfycbw_2GIZsjao_JjiPcTmP6Yirpxbaolbr1T5UBH87swMNXOIZlBt-MmGURKaPCxupP2A/exec' ,
-    //   followAllRedirects: true,
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   }
-    // };
-    // return new Promise(function (resolve, reject) {
-    //   request(options, function (err, res, body) {
-    //     if (res && (res.statusCode === 200 || res.statusCode === 201)) {
-    //       resolve(body.response_data);
-    //     } else {
-    //       console.log(err);
-    //       reject(false);
-    //     }
-    //   });
-    // });
-    //request package ends.
+          setTableData(JSON.parse(res.data));
+          setSaving(false);
+        })
+        .catch((e) => {
+          console.log(e);
+          setSaving(false);
+        });
+    }
   };
 
   // const commOrResObj = { 1: 'Residential', 2: 'Commercial', 3: 'Res&Com' };
   const [commOrRes, setCommOrRes] = useState(0);
   const onDropDownClick = (e) => {
+    const name = 'res_comm_both';
     if (e == 'Residential') {
       setCommOrRes(1);
-      const name = 'res_comm_both';
       setData({ ...data, [name]: e });
-      console.log(data);
     }
     if (e == 'Commercial') {
       setCommOrRes(2);
-      const name = 'res_comm_both';
       setData({ ...data, [name]: e });
-      console.log(data);
     }
     if (e == 'Residential with Commercial Component') {
       setCommOrRes(3);
-      const name = 'res_comm_both';
       setData({ ...data, [name]: e });
-      console.log(data);
     }
+    setError({ ...error, [name]: false });
   };
 
   const [dropdownValue, setDropdown] = useState(0);
   const dependableDropdown = (e) => {
-    console.log(e);
     if (
       e == 'I want to see returns (IRR) at a particular price and business plan'
     ) {
@@ -251,7 +370,7 @@ export default function SectionBasics() {
       const value =
         'I want to see returns (IRR) at a particular price and business plan';
       setData({ ...data, [name]: value });
-      console.log(data);
+      setError({ ...error, [name]: false })
     }
     if (
       e ==
@@ -262,23 +381,18 @@ export default function SectionBasics() {
       const value =
         'I want to value the asset (NPV) basis a business plan and discount rate or desired return';
       setData({ ...data, [name]: value });
-      console.log(data);
+      setError({ ...error, [name]: false })
     }
   };
 
   const [pov2, setpov2] = useState(0);
   const dropdownPov2 = (e) => {
-    console.log('pov2', e);
-    // const name = 'pov2';
-    // setData({ ...data, [name]: e });
-    // console.log(data);
+    const name = 'pov2';
 
     if (e == 'I am buying the land and developing the project myself') {
       setpov2(1);
       const value = 'I am buying the land and developing the project myself';
-      const name = 'pov2';
       setData({ ...data, [name]: value });
-      console.log(data);
     }
     if (
       e ==
@@ -287,9 +401,7 @@ export default function SectionBasics() {
       setpov2(2);
       const value =
         'I am buying the land as a financial investor and will do a Revenue Share JDA with a developer';
-      const name = 'pov2';
       setData({ ...data, [name]: value });
-      console.log(data);
     }
     if (
       e == 'I want to value the asset basis the total project free cashflows'
@@ -297,9 +409,7 @@ export default function SectionBasics() {
       setpov2(3);
       const value =
         'I want to value the asset basis the total project free cashflows';
-      const name = 'pov2';
       setData({ ...data, [name]: value });
-      console.log(data);
     }
     if (
       e ==
@@ -308,15 +418,13 @@ export default function SectionBasics() {
       setpov2(4);
       const value =
         'I want to value the asset basis land owners share of cashflows in a Revenue Share JDA with a developer';
-      const name = 'pov2';
       setData({ ...data, [name]: value });
-      console.log(data);
     }
+    setError({ ...error, [name]: false })
   };
 
   const [currency, setCurrency] = useState(0);
   const currencySelect = (e) => {
-    console.log(e);
     const name = 'eval_mn_crore';
     setData({ ...data, [name]: e });
 
@@ -326,11 +434,11 @@ export default function SectionBasics() {
     if (e == 'INR Crore') {
       setCurrency(2);
     }
+    setError({ ...error, [name]: false });
   };
 
   const [builtupSaleable, setbuiltupOrSaleable] = useState(0);
   const builtupOrSaleable = (e) => {
-    console.log(e);
     const name = 'built_up_area';
     setData({ ...data, [name]: e });
 
@@ -340,76 +448,15 @@ export default function SectionBasics() {
     if (e == 'Saleable Area') {
       setbuiltupOrSaleable(2);
     }
+    setError({ ...error, [name]: false })
   };
-  // async function handleSubmit() {
-  //   try {
-  //     console.log('Data:', data);
-  //     const url =
-  //       'https://script.google.com/macros/s/AKfycbw_2GIZsjao_JjiPcTmP6Yirpxbaolbr1T5UBH87swMNXOIZlBt-MmGURKaPCxupP2A/exec';
-  //     const requestOptions = {
-  //       method: 'POST',
-  //       mode: 'no-cors',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       },
-  //       body: JSON.stringify([{ data }]),
-  //     };
-
-  //     let response = await fetch(url, requestOptions);
-  //     console.log(response);
-  //     // let res = await response.json(); //or .json() or .text()
-  //     // console.log(res);
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // }
-
-  // const [checked, setChecked] = React.useState([24, 22]);
-  // const [selectedEnabled, setSelectedEnabled] = React.useState('b');
-  // const [checkedA, setCheckedA] = React.useState(true);
-  // const [checkedB, setCheckedB] = React.useState(false);
-  // React.useEffect(() => {
-  //   if (
-  //     !document
-  //       .getElementById('sliderRegular')
-  //       .classList.contains('noUi-target')
-  //   ) {
-  //     Slider.create(document.getElementById('sliderRegular'), {
-  //       start: [40],
-  //       connect: [true, false],
-  //       step: 1,
-  //       range: { min: 0, max: 100 },
-  //     });
-  //   }
-  //   if (
-  //     !document.getElementById('sliderDouble').classList.contains('noUi-target')
-  //   ) {
-  //     Slider.create(document.getElementById('sliderDouble'), {
-  //       start: [20, 60],
-  //       connect: [false, true, false],
-  //       step: 1,
-  //       range: { min: 0, max: 100 },
-  //     });
-  //   }
-  //   return function cleanup() {};
-  // });
-  // const handleToggle = (value) => {
-  //   const currentIndex = checked.indexOf(value);
-  //   const newChecked = [...checked];
-
-  //   if (currentIndex === -1) {
-  //     newChecked.push(value);
-  //   } else {
-  //     newChecked.splice(currentIndex, 1);
-  //   }
-  //   setChecked(newChecked);
-  // };
 
   const innerStyles = {
     dropdownStyle: {
       marginLeft: '0rem',
     },
   };
+
 
   return (
     <div className={classes.sections}>
@@ -418,16 +465,11 @@ export default function SectionBasics() {
           <h3>Personal Information</h3>
         </div>
         <div id='email'>
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              flexWrap: 'wrap',
-              alignItems: 'flex-end',
-            }}
-          >
+          <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: "wrap", alignItems: "flex-end" }}>
             <GridItem xs={12} sm={12} md={6}>
-              <p>Your email address</p>
+              <p>
+                Your email address
+              </p>
             </GridItem>
             <GridItem xs={12} sm={12} md={6}>
               <CustomInput
@@ -437,6 +479,7 @@ export default function SectionBasics() {
                 id='float'
                 formControlProps={{
                   fullWidth: true,
+                  error: error["email"]
                 }}
                 inputProps={{
                   endAdornment: (
@@ -449,16 +492,11 @@ export default function SectionBasics() {
             </GridItem>
           </div>
 
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              flexWrap: 'wrap',
-              alignItems: 'flex-end',
-            }}
-          >
+          <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: "wrap", alignItems: "flex-end" }}>
             <GridItem xs={12} sm={12} md={6}>
-              <p>Tell us about yourself!</p>
+              <p>
+                Tell us about yourself!
+              </p>
             </GridItem>
 
             <GridItem xs={12} sm={12} md={6}>
@@ -469,6 +507,7 @@ export default function SectionBasics() {
                 parentCallback={onChange}
                 formControlProps={{
                   fullWidth: true,
+                  error: error["description"]
                 }}
                 inputProps={{
                   endAdornment: (
@@ -487,23 +526,16 @@ export default function SectionBasics() {
             <h3>Choose your options</h3>
           </div>
           <div>
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                flexWrap: 'wrap',
-                padding: '0 1rem 2rem 1rem',
-              }}
-            >
+            <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: "wrap", padding: "0 1rem 2rem 1rem" }}>
               <h5>We&apos;ll analyse it from your point of view! - 1 </h5>
-              <div style={{ width: '300px' }}>
+              <div style={{ width: "300px" }}>
                 <div style={innerStyles.dropdownStyle}>
                   <CustomDropdown
                     buttonText='Select'
                     customButtonStyle={{
                       backgroundColor: '#e9ecef',
                       color: '#212529',
-                      width: '100%',
+                      width: "100%"
                     }}
                     dropdownList={[
                       { divider: true },
@@ -517,8 +549,8 @@ export default function SectionBasics() {
                 <div>
                   {dropdownValue === 1 ? (
                     <Primary>
-                      I want to see returns (IRR) at a particular price and
-                      business plan
+                      I want to see returns (IRR) at a particular price and business
+                      plan
                     </Primary>
                   ) : (
                     <></>
@@ -532,43 +564,37 @@ export default function SectionBasics() {
                     <></>
                   )}
                 </div>
+                {error["pov1"] ? <p style={{ color: "red" }}>This is required.</p> : <></>}
               </div>
             </div>
           </div>
           <div className='dropdown'>
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                flexWrap: 'wrap',
-                padding: '0 1rem 2rem 1rem',
-              }}
-            >
+            <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: "wrap", padding: "0 1rem 2rem 1rem" }}>
               <h5>We&apos;ll analyse it from your point of view! - 2</h5>
-              <div style={{ width: '300px' }}>
+              <div style={{ width: "300px" }}>
                 <div style={innerStyles.dropdownStyle}>
                   <CustomDropdown
                     customButtonStyle={{
                       backgroundColor: '#e9ecef',
                       color: '#212529',
-                      width: '100%',
+                      width: "100%"
                     }}
                     buttonText='Select'
                     onClick={dropdownPov2}
                     dropdownList={
                       dropdownValue == 1
                         ? [
-                            { divider: true },
-                            'I am buying the land and developing the project myself',
-                            { divider: true },
-                            'I am buying the land as a financial investor and will do a Revenue Share JDA with a developer',
-                          ]
+                          { divider: true },
+                          'I am buying the land and developing the project myself',
+                          { divider: true },
+                          'I am buying the land as a financial investor and will do a Revenue Share JDA with a developer',
+                        ]
                         : [
-                            { divider: true },
-                            'I want to value the asset basis the total project free cashflows',
-                            { divider: true },
-                            'I want to value the asset basis land owners share of cashflows in a Revenue Share JDA with a developer',
-                          ]
+                          { divider: true },
+                          'I want to value the asset basis the total project free cashflows',
+                          { divider: true },
+                          'I want to value the asset basis land owners share of cashflows in a Revenue Share JDA with a developer',
+                        ]
                     }
                   />
                 </div>
@@ -598,36 +624,30 @@ export default function SectionBasics() {
                   )}
                   {pov2 === 4 ? (
                     <Primary>
-                      I want to value the asset basis land owners share of
-                      cashflows in a Revenue Share JDA with a developer
+                      I want to value the asset basis land owners share of cashflows
+                      in a Revenue Share JDA with a developer
                     </Primary>
                   ) : (
                     <></>
                   )}
                 </div>
+                {error["pov2"] ? <p style={{ color: "red" }}>This is required</p> : <></>}
               </div>
             </div>
           </div>
           <div className='dropdown'>
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                flexWrap: 'wrap',
-                padding: '0 1rem 2rem 1rem',
-              }}
-            >
+            <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: "wrap", padding: "0 1rem 2rem 1rem" }}>
               <h5>
                 Is it residential or commercial or residential with commercial
                 component?
               </h5>
-              <div style={{ width: '300px' }}>
+              <div style={{ width: "300px" }}>
                 <div style={innerStyles.dropdownStyle}>
                   <CustomDropdown
                     customButtonStyle={{
                       backgroundColor: '#e9ecef',
                       color: '#212529',
-                      width: '100%',
+                      width: "100%"
                     }}
                     onClick={onDropDownClick}
                     buttonText='Select'
@@ -655,28 +675,22 @@ export default function SectionBasics() {
                     <></>
                   )}
                 </div>
+                {error["res_comm_both"] ? <p style={{ color: "red" }}>This is required</p> : <></>}
               </div>
             </div>
           </div>
           <div className='dropdown'>
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                flexWrap: 'wrap',
-                padding: '0 1rem 2rem 1rem',
-              }}
-            >
+            <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: "wrap", padding: "0 1rem 2rem 1rem" }}>
               <h5>
                 Would you like to evaluate your project in INR mn or INR crore?
               </h5>
-              <div style={{ width: '300px' }}>
+              <div style={{ width: "300px" }}>
                 <div style={innerStyles.dropdownStyle}>
                   <CustomDropdown
                     customButtonStyle={{
                       backgroundColor: '#e9ecef',
                       color: '#212529',
-                      width: '100%',
+                      width: "100%"
                     }}
                     buttonText='Select'
                     onClick={currencySelect}
@@ -692,6 +706,7 @@ export default function SectionBasics() {
                   {currency === 1 ? <Primary>INR mn</Primary> : <></>}
                   {currency === 2 ? <Primary>INR Crore</Primary> : <></>}
                 </div>
+                {error["eval_mn_crore"] ? <p style={{ color: "red" }}>This is required</p> : <></>}
               </div>
             </div>
           </div>
@@ -702,16 +717,11 @@ export default function SectionBasics() {
           <div className={classes.title}>
             <h3>Assumption</h3>
           </div>
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              flexWrap: 'wrap',
-              alignItems: 'flex-end',
-            }}
-          >
+          <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: "wrap", alignItems: "flex-end" }}>
             <GridItem xs={12} sm={12} md={6}>
-              <p>how big is the land parcel?</p>
+              <p>
+                How big is the land parcel?
+              </p>
             </GridItem>
             <GridItem xs={12} sm={12} md={6}>
               <CustomInput
@@ -721,21 +731,15 @@ export default function SectionBasics() {
                 labelText='acres'
                 formControlProps={{
                   fullWidth: true,
+                  error: error["land_parcel"]
                 }}
               />
             </GridItem>
           </div>
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              flexWrap: 'wrap',
-              alignItems: 'flex-end',
-            }}
-          >
+          <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: "wrap", alignItems: "flex-end" }}>
             <GridItem xs={12} sm={12} md={6}>
               <p>
-                whats the cost of your land (we&apos;re assuming upfront
+                Whats the cost of your land (we&apos;re assuming upfront
                 payment!)
               </p>
             </GridItem>
@@ -749,6 +753,7 @@ export default function SectionBasics() {
                 name='cost_of_land'
                 formControlProps={{
                   fullWidth: true,
+                  error: error["cost_of_land"]
                 }}
               />
             </GridItem>
@@ -760,16 +765,11 @@ export default function SectionBasics() {
             <div className={classes.title}>
               <h3>Residential</h3>
             </div>
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                flexWrap: 'wrap',
-                alignItems: 'flex-end',
-              }}
-            >
+            <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: "wrap", alignItems: "flex-end" }}>
               <GridItem xs={12} sm={12} md={6}>
-                <p>how much saleable area in the project?</p>
+                <p>
+                  How much saleable area in the project?
+                </p>
               </GridItem>
 
               <GridItem xs={12} sm={12} md={6}>
@@ -780,21 +780,17 @@ export default function SectionBasics() {
                   parentCallback={onChange}
                   formControlProps={{
                     fullWidth: true,
+                    error: error["saleable_area_res"]
                   }}
                 />
               </GridItem>
             </div>
 
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                flexWrap: 'wrap',
-                alignItems: 'flex-end',
-              }}
-            >
+            <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: "wrap", alignItems: "flex-end" }}>
               <GridItem xs={12} sm={12} md={6}>
-                <p>Whats your all inclusive sales price?</p>
+                <p>
+                  What&apos;s your all inclusive sales price?
+                </p>
               </GridItem>
               <GridItem xs={12} sm={12} md={6}>
                 <CustomInput
@@ -804,21 +800,17 @@ export default function SectionBasics() {
                   parentCallback={onChange}
                   formControlProps={{
                     fullWidth: true,
+                    error: error["inc_sale_price_res"]
                   }}
                 />
               </GridItem>
             </div>
 
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                flexWrap: 'wrap',
-                alignItems: 'flex-end',
-              }}
-            >
+            <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: "wrap", alignItems: "flex-end" }}>
               <GridItem xs={12} sm={12} md={6}>
-                <p>Would you like to assume any quarterly escalation?</p>
+                <p>
+                  Would you like to assume any quarterly escalation?
+                </p>
               </GridItem>
               <GridItem xs={12} sm={12} md={6}>
                 <CustomInput
@@ -828,6 +820,7 @@ export default function SectionBasics() {
                   parentCallback={onChange}
                   formControlProps={{
                     fullWidth: true,
+                    error: error["quarterly_escalation_res"]
                   }}
                 />
               </GridItem>
@@ -842,16 +835,11 @@ export default function SectionBasics() {
             <div className={classes.title}>
               <h3>Commercial</h3>
             </div>
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                flexWrap: 'wrap',
-                alignItems: 'flex-end',
-              }}
-            >
+            <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: "wrap", alignItems: "flex-end" }}>
               <GridItem xs={12} sm={12} md={6}>
-                <p>How much saleable area in the project?</p>
+                <p>
+                  How much saleable area in the project?
+                </p>
               </GridItem>
 
               <GridItem xs={12} sm={12} md={6}>
@@ -862,21 +850,17 @@ export default function SectionBasics() {
                   parentCallback={onChange}
                   formControlProps={{
                     fullWidth: true,
+                    error: error["saleable_area"]
                   }}
                 />
               </GridItem>
             </div>
 
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                flexWrap: 'wrap',
-                alignItems: 'flex-end',
-              }}
-            >
+            <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: "wrap", alignItems: "flex-end" }}>
               <GridItem xs={12} sm={12} md={6}>
-                <p>Whats your all inclusive sales price?</p>
+                <p>
+                  Whats your all inclusive sales price?
+                </p>
               </GridItem>
               <GridItem xs={12} sm={12} md={6}>
                 <CustomInput
@@ -886,21 +870,17 @@ export default function SectionBasics() {
                   parentCallback={onChange}
                   formControlProps={{
                     fullWidth: true,
+                    error: error["inc_sale_price"]
                   }}
                 />
               </GridItem>
             </div>
 
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                flexWrap: 'wrap',
-                alignItems: 'flex-end',
-              }}
-            >
+            <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: "wrap", alignItems: "flex-end" }}>
               <GridItem xs={12} sm={12} md={6}>
-                <p>Would you like to assume any quarterly escalation?</p>
+                <p>
+                  Would you like to assume any quarterly escalation?
+                </p>
               </GridItem>
               <GridItem xs={12} sm={12} md={6}>
                 <CustomInput
@@ -910,6 +890,7 @@ export default function SectionBasics() {
                   parentCallback={onChange}
                   formControlProps={{
                     fullWidth: true,
+                    error: error["quarterly_escalation"]
                   }}
                 />
               </GridItem>
@@ -925,26 +906,19 @@ export default function SectionBasics() {
           </div>
 
           <div>
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                flexWrap: 'wrap',
-                padding: '0 1rem 2rem 1rem',
-              }}
-            >
-              <h5 style={{ width: '400px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: "wrap", padding: "0 1rem 2rem 1rem" }}>
+              <h5 style={{ width: "400px" }}>
                 Would you like to calculate construction cost on saleable area
                 or add a separate construction area / built up area
               </h5>
-              <div style={{ width: '300px' }}>
+              <div style={{ width: "300px" }}>
                 <div style={innerStyles.dropdownStyle}>
                   <CustomDropdown
                     buttonText='Select'
                     customButtonStyle={{
                       backgroundColor: '#e9ecef',
                       color: '#212529',
-                      width: '100%',
+                      width: "100%"
                     }}
                     onClick={builtupOrSaleable}
                     dropdownList={[
@@ -956,33 +930,20 @@ export default function SectionBasics() {
                   />
                 </div>
                 <div>
-                  {builtupSaleable === 1 ? (
-                    <Primary>Built Up Area</Primary>
-                  ) : (
-                    <></>
-                  )}
-                  {builtupSaleable === 2 ? (
-                    <Primary>Saleable Area</Primary>
-                  ) : (
-                    <></>
-                  )}
+                  {builtupSaleable === 1 ? <Primary>Built Up Area</Primary> : <></>}
+                  {builtupSaleable === 2 ? <Primary>Saleable Area</Primary> : <></>}
+                  {error["built_up_area"] ? <p style={{ color: "red" }}>This is required</p> : <></>}
                 </div>
               </div>
             </div>
           </div>
 
           {builtupSaleable == 1 && builtupSaleable !== 2 ? (
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                flexWrap: 'wrap',
-                alignItems: 'flex-end',
-                padding: '0 0rem 2rem 0rem',
-              }}
-            >
+            <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: "wrap", alignItems: "flex-end", padding: "0 0rem 2rem 0rem" }}>
               <GridItem xs={12} sm={12} md={6}>
-                <p>how much built up area in the project?</p>
+                <p>
+                  how much built up area in the project?
+                </p>
               </GridItem>
               <GridItem xs={12} sm={12} md={6}>
                 <CustomInput
@@ -992,6 +953,7 @@ export default function SectionBasics() {
                   parentCallback={onChange}
                   formControlProps={{
                     fullWidth: true,
+                    error: error["total_built_up_area"]
                   }}
                 />
               </GridItem>
@@ -999,18 +961,11 @@ export default function SectionBasics() {
           ) : (
             <></>
           )}
-
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              flexWrap: 'wrap',
-              alignItems: 'flex-end',
-              padding: '0 0rem 2rem 0rem',
-            }}
-          >
+          <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: "wrap", alignItems: "flex-end", padding: "0 0rem 2rem 0rem" }}>
             <GridItem xs={12} sm={12} md={6}>
-              <p>What&apos;s your cons cost estimate?</p>
+              <p>
+                What&apos;s your cons cost estimate?
+              </p>
             </GridItem>
 
             <GridItem xs={12} sm={12} md={6}>
@@ -1021,20 +976,13 @@ export default function SectionBasics() {
                 parentCallback={onChange}
                 formControlProps={{
                   fullWidth: true,
+                  error: error["cost_estimate"]
                 }}
               />
             </GridItem>
           </div>
 
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              flexWrap: 'wrap',
-              alignItems: 'flex-end',
-              padding: '0 0rem 2rem 0rem',
-            }}
-          >
+          <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: "wrap", alignItems: "flex-end", padding: "0 0rem 2rem 0rem" }}>
             <GridItem xs={12} sm={12} md={6}>
               <p>
                 Would you like to assume any quarterly escalation in cons cost?
@@ -1048,22 +996,17 @@ export default function SectionBasics() {
                 parentCallback={onChange}
                 formControlProps={{
                   fullWidth: true,
+                  error: error["quarterly_escalation_con"]
                 }}
               />
             </GridItem>
           </div>
 
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              flexWrap: 'wrap',
-              alignItems: 'flex-end',
-              padding: '0 0rem 2rem 0rem',
-            }}
-          >
+          <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: "wrap", alignItems: "flex-end", padding: "0 0rem 2rem 0rem" }}>
             <GridItem xs={12} sm={12} md={6}>
-              <p>what % brokerage will u pay?</p>
+              <p>
+                What % brokerage will you pay?
+              </p>
             </GridItem>
             <GridItem xs={12} sm={12} md={6}>
               <CustomInput
@@ -1073,23 +1016,16 @@ export default function SectionBasics() {
                 parentCallback={onChange}
                 formControlProps={{
                   fullWidth: true,
+                  error: error["brokerage"]
                 }}
               />
             </GridItem>
           </div>
 
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              flexWrap: 'wrap',
-              alignItems: 'flex-end',
-              padding: '0 0rem 2rem 0rem',
-            }}
-          >
+          <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: "wrap", alignItems: "flex-end", padding: "0 0rem 2rem 0rem" }}>
             <GridItem xs={12} sm={12} md={6}>
               <p>
-                load up any upfront costs u may incur! (example - approval
+                Load up any upfront costs you may incur! (example - approval
                 costs)
               </p>
             </GridItem>
@@ -1102,22 +1038,17 @@ export default function SectionBasics() {
                 parentCallback={onChange}
                 formControlProps={{
                   fullWidth: true,
+                  error: error["upfront_costs"]
                 }}
               />
             </GridItem>
           </div>
 
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              flexWrap: 'wrap',
-              alignItems: 'flex-end',
-              padding: '0 0rem 2rem 0rem',
-            }}
-          >
+          <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: "wrap", alignItems: "flex-end", padding: "0 0rem 2rem 0rem" }}>
             <GridItem xs={12} sm={12} md={6}>
-              <p>load up any other costs u want to!</p>
+              <p>
+                Load up any other costs you want to!
+              </p>
             </GridItem>
 
             <GridItem xs={12} sm={12} md={6}>
@@ -1128,23 +1059,16 @@ export default function SectionBasics() {
                 parentCallback={onChange}
                 formControlProps={{
                   fullWidth: true,
+                  error: error["other_costs"]
                 }}
               />
             </GridItem>
           </div>
 
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              flexWrap: 'wrap',
-              alignItems: 'flex-end',
-              padding: '0 0rem 2rem 0rem',
-            }}
-          >
+          <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: "wrap", alignItems: "flex-end", padding: "0 0rem 2rem 0rem" }}>
             <GridItem xs={12} sm={12} md={6}>
               <p>
-                load up any other costs u want to! (spread over duration of
+                Load up any other costs you want to! (spread over duration of
                 cons)
               </p>
             </GridItem>
@@ -1157,6 +1081,7 @@ export default function SectionBasics() {
                 parentCallback={onChange}
                 formControlProps={{
                   fullWidth: true,
+                  error: error["other_costs_over_duration"]
                 }}
               />
             </GridItem>
@@ -1168,18 +1093,10 @@ export default function SectionBasics() {
             <h3>Timelines</h3>
           </div>
 
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              flexWrap: 'wrap',
-              alignItems: 'flex-end',
-              padding: '0 0rem 2rem 0rem',
-            }}
-          >
+          <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: "wrap", alignItems: "flex-end", padding: "0 0rem 2rem 0rem" }}>
             <GridItem xs={12} sm={12} md={6}>
               <p>
-                after how many quarters of buying land will project be launched?
+                After how many quarters of buying land will project be launched?
               </p>
             </GridItem>
             <GridItem xs={12} sm={12} md={6}>
@@ -1190,22 +1107,17 @@ export default function SectionBasics() {
                 parentCallback={onChange}
                 formControlProps={{
                   fullWidth: true,
+                  error: error["quarters_to_land_project"]
                 }}
               />
             </GridItem>
           </div>
 
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              flexWrap: 'wrap',
-              alignItems: 'flex-end',
-              padding: '0 0rem 2rem 0rem',
-            }}
-          >
+          <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: "wrap", alignItems: "flex-end", padding: "0 0rem 2rem 0rem" }}>
             <GridItem xs={12} sm={12} md={6}>
-              <p>in how many quarters will construction be completed?</p>
+              <p>
+                In how many quarters will construction be completed?
+              </p>
             </GridItem>
             <GridItem xs={12} sm={12} md={6}>
               <CustomInput
@@ -1215,23 +1127,16 @@ export default function SectionBasics() {
                 parentCallback={onChange}
                 formControlProps={{
                   fullWidth: true,
+                  error: error["quarters_to_complete_construction"]
                 }}
               />
             </GridItem>
           </div>
           {commOrRes === 1 || commOrRes === 3 ? (
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                flexWrap: 'wrap',
-                alignItems: 'flex-end',
-                padding: '0 0rem 2rem 0rem',
-              }}
-            >
+            <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: "wrap", alignItems: "flex-end", padding: "0 0rem 2rem 0rem" }}>
               <GridItem xs={12} sm={12} md={6}>
                 <p>
-                  in how many quarters will you sell 100% of the residential
+                  In how many quarters will you sell 100% of the residential
                   inventory?
                 </p>
               </GridItem>
@@ -1243,6 +1148,7 @@ export default function SectionBasics() {
                   parentCallback={onChange}
                   formControlProps={{
                     fullWidth: true,
+                    error: error["quarters_to_sell_res"]
                   }}
                 />
               </GridItem>
@@ -1252,18 +1158,10 @@ export default function SectionBasics() {
           )}
 
           {commOrRes === 2 || commOrRes === 3 ? (
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                flexWrap: 'wrap',
-                alignItems: 'flex-end',
-                padding: '0 0rem 2rem 0rem',
-              }}
-            >
+            <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: "wrap", alignItems: "flex-end", padding: "0 0rem 2rem 0rem" }}>
               <GridItem xs={12} sm={12} md={6}>
                 <p>
-                  in how many quarters will you sell 100% of the commercial
+                  In how many quarters will you sell 100% of the commercial
                   inventory?
                 </p>
               </GridItem>
@@ -1275,6 +1173,7 @@ export default function SectionBasics() {
                   parentCallback={onChange}
                   formControlProps={{
                     fullWidth: true,
+                    error: error["quarters_to_sell_comm"]
                   }}
                 />
               </GridItem>
@@ -1288,17 +1187,11 @@ export default function SectionBasics() {
             <div className={classes.title}>
               <h3>Others</h3>
             </div>
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                flexWrap: 'wrap',
-                alignItems: 'flex-end',
-                padding: '0 0rem 2rem 0rem',
-              }}
-            >
+            <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: "wrap", alignItems: "flex-end", padding: "0 0rem 2rem 0rem" }}>
               <GridItem xs={12} sm={12} md={6}>
-                <p>Desired return or discount rate?</p>
+                <p>
+                  Desired return or discount rate?
+                </p>
               </GridItem>
               <GridItem xs={12} sm={12} md={6}>
                 <CustomInput
@@ -1308,6 +1201,7 @@ export default function SectionBasics() {
                   parentCallback={onChange}
                   formControlProps={{
                     fullWidth: true,
+                    error: error["desired_return"]
                   }}
                 />
               </GridItem>
@@ -1324,8 +1218,8 @@ export default function SectionBasics() {
             {isSaving ? (
               <div
                 style={{
-                  'animation-duration': '1s',
-                  'animation-iteration-count': 'infinite',
+                  'animationDuration': '1s',
+                  'animationIterationCount': 'infinite',
                 }}
               >
                 Loading
@@ -1340,6 +1234,6 @@ export default function SectionBasics() {
           <TableDisp data={tableData} />
         </div>
       </div>
-    </div>
+    </div >
   );
 }
