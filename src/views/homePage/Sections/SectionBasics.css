@@ -8,6 +8,13 @@
   }
 }
 
+.cont {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
 .cont > div {
   width: 100%;
   margin: 1rem;

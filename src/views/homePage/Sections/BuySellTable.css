@@ -1,0 +1,11 @@
+.build-lease-table > div {
+  margin: 1rem;
+}
+
+@media only screen and (max-width: 600px) {
+  .container {
+    width: 240px;
+    overflow-x: scroll;
+    white-space: nowrap;
+  }
+}

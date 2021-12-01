@@ -15,7 +15,7 @@ import GridItem from 'components/Grid/GridItem.js';
 import Parallax from 'components/Parallax/Parallax.js';
 // sections for this page
 import HeaderLinks from 'components/Header/HeaderLinks.js';
-import BuildLease from "./BuildLease";
+import BuildLease from "views/BuildAndLease/BuildLease";
 import styles from 'assets/jss/material-kit-react/views/components.js';
 import { Link } from 'react-router-dom';
 

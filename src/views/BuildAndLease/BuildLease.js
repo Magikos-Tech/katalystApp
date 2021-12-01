@@ -12,8 +12,8 @@ import "views/BuildAndLease/BuildLease.css";
 const useStyles = makeStyles(styles);
 import { useState } from "react";
 import axios from "axios";
-import BuildLeaseTable from "./BuildLeaseTable";
 import { Icon } from "@material-ui/core";
+import BuildLeaseTable from "./BuildLeaseTable";
 function BuildLease() {
   const classes = useStyles();
   const [data, setData] = useState({
@@ -104,7 +104,7 @@ function BuildLease() {
   function isNumber(str) {
     if (typeof str != "string") return false // we only process strings!
     // could also coerce to string: str = ""+str
-    return !isNaN(str) && !isNaN(parseFloat(str))
+    return !isNaN(str) && !isNaN(parseFloat(str)) && parseFloat(str) >= 0
   }
 
   const handleSubmit = (e) => {
@@ -255,8 +255,8 @@ function BuildLease() {
     }
     setError({ ...error });
     setSaving(result);
-    console.log(error, data, result);
     if (result) {
+      //console.log(data);
       axios({
         url: `https://script.google.com/macros/s/AKfycbwsoWPwotuI55Y31vXbQ9t5uk7EIDMqUdsClEpY4-Tw08VACAXoBSdXEwadSzEH2MZfUw/exec`,
         data,
@@ -265,9 +265,9 @@ function BuildLease() {
       })
         .then((res) => {
           setSaving(false);
-          console.log('Raw result', res);
+          //console.log('Raw result', res);
           //console.log('Result DATA', res.data);
-          setTableData(JSON.parse(res.data));
+          setTableData(res.data);
         })
         .catch((e) => {
           setSaving(false);
@@ -285,7 +285,7 @@ function BuildLease() {
           <div>
             <div className="cont" style={{ width: "100%", display: "flex", justifyContent: "space-around" }}>
               <div>
-                <p>We&apos;ll analyse it from your point of view! - 1</p>
+                <h5>We&apos;ll analyse it from your point of view! - 1</h5>
               </div>
               <div>
                 <FormControl component="fieldset">
@@ -316,7 +316,7 @@ function BuildLease() {
           <div>
             <div className="cont" style={{ width: "100%", display: "flex", justifyContent: "space-around" }}>
               <div>
-                <p>We&apos;ll analyse it from your point of view! - 2</p>
+                <h5>We&apos;ll analyse it from your point of view! - 2</h5>
               </div>
               <div>
                 <FormControl component="fieldset">
@@ -346,7 +346,7 @@ function BuildLease() {
           <div>
             <div className="cont" style={{ width: "100%", display: "flex", justifyContent: "space-around" }}>
               <div>
-                <p>Would you like to evaluate your project in INR mn or INR crore?</p>
+                <h5>Would you like to evaluate your project in INR mn or INR crore?</h5>
               </div>
               <div>
                 <FormControl component="fieldset">
@@ -378,9 +378,9 @@ function BuildLease() {
           <div className="title">
             <h3>Land and Area</h3>
           </div>
-          <div className="cont" style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
+          <div className="cont" style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
             <div>
-              <p>How big is the land parcel?</p>
+              <h5>How big is the land parcel?</h5>
             </div>
             <CustomInput
               id="float"
@@ -393,9 +393,9 @@ function BuildLease() {
               }}
             />
           </div>
-          <div className="cont" style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
+          <div className="cont" style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
             <div>
-              <p>whats the cost of your land (we&apos;re assuming upfront payment!)</p>
+              <h5>Whats the cost of your land (we&apos;re assuming upfront payment!)</h5>
             </div>
             <CustomInput
               id="float"
@@ -411,10 +411,10 @@ function BuildLease() {
           {data.pov2 == "I want to value the asset basis land owners share of cashflows in a Revenue Share JDA with a developer" ||
             data.pov2 == "I am buying the land as a financial investor and will do a Revenue Share JDA with a developer" ?
             <div className="cont"
-              style={{ width: "100%", justifyContent: "space-between", alignItems: "flex-end", display: "flex" }}
+              style={{ width: "100%", justifyContent: "space-between", alignItems: "baseline", display: "flex" }}
             >
               <div>
-                <p>LO Share</p>
+                <h5>LO Share</h5>
               </div>
               <CustomInput
                 id="float"
@@ -428,9 +428,9 @@ function BuildLease() {
               />
             </div>
             : <></>}
-          <div className="cont" style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
+          <div className="cont" style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
             <div>
-              <p>how much leasable area in the project?</p>
+              <h5>How much leasable area in the project?</h5>
             </div>
             <CustomInput
               id="float"
@@ -448,9 +448,9 @@ function BuildLease() {
           <div className="title">
             <h3>Revenue</h3>
           </div>
-          <div className="cont" style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
+          <div className="cont" style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
             <div>
-              <p>At what rate will you lease the inventory</p>
+              <h5>At what rate will you lease the inventory</h5>
             </div>
             <CustomInput
               id="float"
@@ -463,9 +463,9 @@ function BuildLease() {
               }}
             />
           </div>
-          <div className="cont" style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
+          <div className="cont" style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
             <div>
-              <p>Would you like to assume any quarterly escalation?</p>
+              <h5>Would you like to assume any quarterly escalation?</h5>
             </div>
             <CustomInput
               id="float"
@@ -478,9 +478,9 @@ function BuildLease() {
               }}
             />
           </div>
-          <div className="cont" style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
+          <div className="cont" style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
             <div>
-              <p>If you want to add some CAM margin profit (calculated on leased area)</p>
+              <h5>If you want to add some CAM margin profit (calculated on leased area)</h5>
             </div>
             <CustomInput
               id="float"
@@ -501,7 +501,7 @@ function BuildLease() {
           <br />
           <div className="cont" style={{ width: "100%", display: "flex", justifyContent: "space-between" }}>
             <div>
-              <p>Would you like to calculate construction cost on saleable area or add a separate construction area / built up area</p>
+              <h5>Would you like to calculate construction cost on saleable area or add a separate construction area / built up area</h5>
             </div>
             <div>
               <FormControl component="fieldset">
@@ -528,9 +528,9 @@ function BuildLease() {
             </div>
           </div>
           {data.saleable_area_or_built_up == "Built Up Area" ?
-            <div className="cont" style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
+            <div className="cont" style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
               <div>
-                <p>How much built up area in the project?</p>
+                <h5>How much built up area in the project?</h5>
               </div>
               <CustomInput
                 id="float"
@@ -544,9 +544,9 @@ function BuildLease() {
               />
             </div>
             : <></>}
-          <div className="cont" style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
+          <div className="cont" style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
             <div>
-              <p>What&apos;s your cons cost estimate?</p>
+              <h5>What&apos;s your cons cost estimate?</h5>
             </div>
             <CustomInput
               id="float"
@@ -559,9 +559,9 @@ function BuildLease() {
               }}
             />
           </div>
-          <div className="cont" style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
+          <div className="cont" style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
             <div>
-              <p>Would you like to assume any quarterly escalation in cons cost?</p>
+              <h5>Would you like to assume any quarterly escalation in cons cost?</h5>
             </div>
             <CustomInput
               id="float"
@@ -574,9 +574,9 @@ function BuildLease() {
               }}
             />
           </div>
-          <div className="cont" style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
+          <div className="cont" style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
             <div>
-              <p>How many months brokerage upon lease</p>
+              <h5>How many months brokerage upon lease</h5>
             </div>
             <CustomInput
               id="float"
@@ -589,9 +589,9 @@ function BuildLease() {
               }}
             />
           </div>
-          <div className="cont" style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
+          <div className="cont" style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
             <div>
-              <p>Load up any upfront costs u may incur! (example - approval costs)</p>
+              <h5>Load up any upfront costs u may incur! (example - approval costs)</h5>
             </div>
             <CustomInput
               id="float"
@@ -604,9 +604,9 @@ function BuildLease() {
               }}
             />
           </div>
-          <div className="cont" style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
+          <div className="cont" style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
             <div>
-              <p>Load up any other costs u want to! (spread equally over duration of cons)</p>
+              <h5>Load up any other costs u want to! (spread equally over duration of cons)</h5>
             </div>
             <CustomInput
               id="float"
@@ -619,9 +619,9 @@ function BuildLease() {
               }}
             />
           </div>
-          <div className="cont" style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
+          <div className="cont" style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
             <div>
-              <p>Load up any other operational costs u want to! (post completion on total area)</p>
+              <h5>Load up any other operational costs u want to! (post completion on total area)</h5>
             </div>
             <CustomInput
               id="float"
@@ -637,11 +637,11 @@ function BuildLease() {
         </div>
         <div className={classes.container}>
           <div className="title">
-            <h3>Revenue</h3>
+            <h3>Timelines and Leasing</h3>
           </div>
-          <div className="cont" style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
+          <div className="cont" style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
             <div>
-              <p>After how many quarters of buying land will project be launched?</p>
+              <h5>After how many quarters of buying land will project be launched?</h5>
             </div>
             <CustomInput
               id="float"
@@ -654,9 +654,9 @@ function BuildLease() {
               }}
             />
           </div>
-          <div className="cont" style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
+          <div className="cont" style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
             <div>
-              <p>In how many quarters will construction be completed?</p>
+              <h5>In how many quarters will construction be completed?</h5>
             </div>
             <CustomInput
               id="float"
@@ -669,9 +669,9 @@ function BuildLease() {
               }}
             />
           </div>
-          <div className="cont" style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
+          <div className="cont" style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
             <div>
-              <p>What % of leasable area would be preleased at completion</p>
+              <h5>What % of leasable area would be preleased at completion</h5>
             </div>
             <CustomInput
               id="float"
@@ -684,9 +684,9 @@ function BuildLease() {
               }}
             />
           </div>
-          <div className="cont" style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
+          <div className="cont" style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
             <div>
-              <p>Peak lease (at which you will exit asset)</p>
+              <h5>Peak lease (at which you will exit asset)</h5>
             </div>
             <CustomInput
               id="float"
@@ -699,9 +699,9 @@ function BuildLease() {
               }}
             />
           </div>
-          <div className="cont" style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
+          <div className="cont" style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
             <div>
-              <p>In how many quarters post completion will peak lease be achieved</p>
+              <h5>In how many quarters post completion will peak lease be achieved</h5>
             </div>
             <CustomInput
               id="float"
@@ -714,9 +714,9 @@ function BuildLease() {
               }}
             />
           </div>
-          <div className="cont" style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
+          <div className="cont" style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
             <div>
-              <p>After how many quarters of peak lease will asset exit at peak</p>
+              <h5>After how many quarters of peak lease will asset exit at peak</h5>
             </div>
             <CustomInput
               id="float"
@@ -736,9 +736,9 @@ function BuildLease() {
             <h3>Debt</h3>
 
           </div>
-          <div className="cont" style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
+          <div className="cont" style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
             <div>
-              <p>Construction Finance Limit (Only Int Payout till LRD)</p>
+              <h5>Construction Finance Limit (Only Int Payout till LRD)</h5>
             </div>
             <CustomInput
               id="float"
@@ -751,9 +751,9 @@ function BuildLease() {
               }}
             />
           </div>
-          <div className="cont" style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
+          <div className="cont" style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
             <div>
-              <p>Construction Finance Cost</p>
+              <h5>Construction Finance Cost</h5>
             </div>
             <CustomInput
               id="float"
@@ -766,9 +766,9 @@ function BuildLease() {
               }}
             />
           </div>
-          <div className="cont" style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
+          <div className="cont" style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
             <div>
-              <p>LRD Cost</p>
+              <h5>LRD Cost</h5>
             </div>
             <CustomInput
               id="float"
@@ -781,9 +781,9 @@ function BuildLease() {
               }}
             />
           </div>
-          <div className="cont" style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
+          <div className="cont" style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
             <div>
-              <p>LRD Principal Amortisation</p>
+              <h5>LRD Principal Amortisation</h5>
             </div>
             <CustomInput
               id="float"
@@ -803,9 +803,9 @@ function BuildLease() {
           </div>
 
           {data.pov1 == "I want to value the asset (NPV) basis a business plan and discount rate or desired return" ?
-            <div className="cont" style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
+            <div className="cont" style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
               <div>
-                <p>Desired return or Discount rate</p>
+                <h5>Desired return or Discount rate</h5>
               </div>
               <CustomInput
                 id="float"
@@ -819,9 +819,9 @@ function BuildLease() {
               />
             </div> : <></>
           }
-          <div className="cont" style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "flex-end" }}>
+          <div className="cont" style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
             <div>
-              <p>Exit Cap Rate</p>
+              <h5>Exit Cap Rate</h5>
             </div>
             <CustomInput
               id="float"
