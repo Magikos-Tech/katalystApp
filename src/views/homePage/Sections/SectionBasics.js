@@ -14,7 +14,7 @@ import CustomInput from 'components/CustomInput/CustomInput.js';
 import styles from 'assets/jss/material-kit-react/views/componentsSections/basicsStyle.js';
 import { useState } from 'react';
 import BuySellTable from './BuySellTable.js';
-import "./SectionBasics.css";
+import './SectionBasics.css';
 // import DropdownStyle from './home-page-style.js';
 
 const useStyles = makeStyles(styles);
@@ -95,28 +95,29 @@ export default function SectionBasics() {
   // };
 
   function isNumber(str) {
-    if (typeof str != "string") return false // we only process strings!
+    if (typeof str != 'string') return false; // we only process strings!
     // could also coerce to string: str = ""+str
-    return !isNaN(str) && !isNaN(parseFloat(str)) && parseFloat(str) >= 0
+    return !isNaN(str) && !isNaN(parseFloat(str)) && parseFloat(str) >= 0;
   }
 
   function verfiyEmail(email) {
-    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const re =
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(String(email).toLowerCase());
   }
 
   const onChange = (obj) => {
     // //console.log(obj);
     const { name, value } = obj;
-    if (name == "email") {
-      if (value == "" || !verfiyEmail(value)) error[name] = true;
+    if (name == 'email') {
+      if (value == '' || !verfiyEmail(value)) error[name] = true;
       else error[name] = false;
-    } else if (name == "description") {
-      if (value == "") error[name] = true;
+    } else if (name == 'description') {
+      if (value == '') error[name] = true;
       else error[name] = false;
     } else {
-      if (value == "" || !isNumber(value)) error[name] = true;
-      else error[name] = false
+      if (value == '' || !isNumber(value)) error[name] = true;
+      else error[name] = false;
     }
     setData({ ...data, [name]: value });
     setError({ ...error });
@@ -183,72 +184,81 @@ export default function SectionBasics() {
     }
     let result = true;
 
-    if (data.pov1 === "") {
+    if (data.pov1 === '') {
       result = false;
-      error["pov1"] = true;
+      error['pov1'] = true;
     } else {
-      if (data.pov1 !== "I want to value the asset (NPV) basis a business plan and discount rate or desired return") {
-        data.desired_return = "";
+      if (
+        data.pov1 !==
+        'I want to value the asset (NPV) basis a business plan and discount rate or desired return'
+      ) {
+        data.desired_return = '';
       }
     }
-    if (data.pov2 === "") {
+    if (data.pov2 === '') {
       result = false;
-      error["pov2"] = true;
+      error['pov2'] = true;
     }
-    if (data.res_comm_both === "") {
+    if (data.res_comm_both === '') {
       result = false;
-      error["res_comm_both"] = true;
+      error['res_comm_both'] = true;
     } else {
-      if (data.res_comm_both === "Residential" || data.res_comm_both === "Residential with Commercial Component") {
-        if (!isNumber(data.saleable_area_res.replace("%", ""))) {
+      if (
+        data.res_comm_both === 'Residential' ||
+        data.res_comm_both === 'Residential with Commercial Component'
+      ) {
+        if (!isNumber(data.saleable_area_res.replace('%', ''))) {
           result = false;
-          error["saleable_area_res"] = true;
+          error['saleable_area_res'] = true;
         }
-        if (!isNumber(data.inc_sale_price_res.replace("%", ""))) {
+        if (!isNumber(data.inc_sale_price_res.replace('%', ''))) {
           result = false;
-          error["inc_sale_price_res"] = true;
+          error['inc_sale_price_res'] = true;
         }
-        if (!isNumber(data.quarterly_escalation_res.replace("%", ""))) {
+        if (!isNumber(data.quarterly_escalation_res.replace('%', ''))) {
           result = false;
-          error["quarterly_escalation_res"] = true;
+          error['quarterly_escalation_res'] = true;
         }
-        if (!isNumber(data.quarters_to_sell_res.replace("%", ""))) {
+        if (!isNumber(data.quarters_to_sell_res.replace('%', ''))) {
           result = false;
-          error["quarters_to_sell_res"] = true;
+          error['quarters_to_sell_res'] = true;
         }
-        if (data.res_comm_both !== "Residential with Commercial Component") {
-          data.saleable_area = "";
-          data.inc_sale_price = "";
-          data.quarterly_escalation = "";
-          data.quarters_to_sell_comm = "";
+        if (data.res_comm_both !== 'Residential with Commercial Component') {
+          data.saleable_area = '';
+          data.inc_sale_price = '';
+          data.quarterly_escalation = '';
+          data.quarters_to_sell_comm = '';
           error.saleable_area = false;
           error.inc_sale_price = false;
           error.quarterly_escalation = false;
           error.quarters_to_sell_comm = false;
         }
       }
-      if (data.res_comm_both === "Commercial" || data.res_comm_both === "Residential with Commercial Component") {
-        if (!isNumber(data.saleable_area.replace("%", ""))) {
+      if (
+        data.res_comm_both === 'Commercial' ||
+        data.res_comm_both === 'Residential with Commercial Component'
+      ) {
+        if (!isNumber(data.saleable_area.replace('%', ''))) {
           result = false;
-          error["saleable_area"] = true;
+          error['saleable_area'] = true;
         }
-        if (!isNumber(data.inc_sale_price.replace("%", ""))) {
+        if (!isNumber(data.inc_sale_price.replace('%', ''))) {
           result = false;
-          error["inc_sale_price"] = true;
+          error['inc_sale_price'] = true;
         }
-        if (!isNumber(data.quarterly_escalation.replace("%", ""))) {
+        if (!isNumber(data.quarterly_escalation.replace('%', ''))) {
           result = false;
-          error["quarterly_escalation"] = true;
+          error['quarterly_escalation'] = true;
         }
-        if (!isNumber(data.quarters_to_sell_comm.replace("%", ""))) {
+        if (!isNumber(data.quarters_to_sell_comm.replace('%', ''))) {
           result = false;
-          error["quarters_to_sell_comm"] = true;
+          error['quarters_to_sell_comm'] = true;
         }
-        if (data.res_comm_both !== "Residential with Commercial Component") {
-          data.saleable_area_res = "";
-          data.inc_sale_price_res = "";
-          data.quarterly_escalation_res = "";
-          data.quarters_to_sell_res = "";
+        if (data.res_comm_both !== 'Residential with Commercial Component') {
+          data.saleable_area_res = '';
+          data.inc_sale_price_res = '';
+          data.quarterly_escalation_res = '';
+          data.quarters_to_sell_res = '';
           error.saleable_area_res = false;
           error.inc_sale_price_res = false;
           error.quarterly_escalation_res = false;
@@ -256,89 +266,99 @@ export default function SectionBasics() {
         }
       }
     }
-    if (data.built_up_area === "") {
+    if (data.built_up_area === '') {
       result = false;
-      error["built_up_area"] = true;
+      error['built_up_area'] = true;
     } else {
-      if (data.built_up_area === "Built Up Area") {
-        if (!isNumber(data.total_built_up_area.replace("%", ""))) {
+      if (data.built_up_area === 'Built Up Area') {
+        if (!isNumber(data.total_built_up_area.replace('%', ''))) {
           result = false;
-          error["total_built_up_area"] = true;
+          error['total_built_up_area'] = true;
         }
       }
     }
     if (!verfiyEmail(data.email)) {
       result = false;
-      error["email"] = true;
+      error['email'] = true;
     }
-    if (data.description === "") {
+    if (data.description === '') {
       result = false;
-      error["description"] = true;
+      error['description'] = true;
     }
-    if (data.eval_mn_crore === "") {
+    if (data.eval_mn_crore === '') {
       result = false;
-      error["eval_mn_crore"] = true;
+      error['eval_mn_crore'] = true;
     }
-    if (!isNumber(data.land_parcel.replace("%", ""))) {
+    if (!isNumber(data.land_parcel.replace('%', ''))) {
       result = false;
-      error["land_parcel"] = true;
+      error['land_parcel'] = true;
     }
-    if (!isNumber(data.cost_of_land.replace("%", ""))) {
+    if (!isNumber(data.cost_of_land.replace('%', ''))) {
       result = false;
-      error["cost_of_land"] = true;
+      error['cost_of_land'] = true;
     }
-    if (!isNumber(data.cost_estimate.replace("%", ""))) {
+    if (!isNumber(data.cost_estimate.replace('%', ''))) {
       result = false;
-      error["cost_estimate"] = true;
+      error['cost_estimate'] = true;
     }
-    if (!isNumber(data.quarterly_escalation_con.replace("%", ""))) {
+    if (!isNumber(data.quarterly_escalation_con.replace('%', ''))) {
       result = false;
-      error["quarterly_escalation_con"] = true;
+      error['quarterly_escalation_con'] = true;
     }
-    if (!isNumber(data.brokerage.replace("%", ""))) {
+    if (!isNumber(data.brokerage.replace('%', ''))) {
       result = false;
-      error["brokerage"] = true;
+      error['brokerage'] = true;
     }
-    if (!isNumber(data.upfront_costs.replace("%", ""))) {
+    if (!isNumber(data.upfront_costs.replace('%', ''))) {
       result = false;
-      error["upfront_costs"] = true;
+      error['upfront_costs'] = true;
     }
-    if (!isNumber(data.other_costs.replace("%", ""))) {
+    if (!isNumber(data.other_costs.replace('%', ''))) {
       result = false;
-      error["other_costs"] = true;
+      error['other_costs'] = true;
     }
-    if (!isNumber(data.other_costs_over_duration.replace("%", ""))) {
+    if (!isNumber(data.other_costs_over_duration.replace('%', ''))) {
       result = false;
-      error["other_costs_over_duration"] = true;
+      error['other_costs_over_duration'] = true;
     }
-    if (!isNumber(data.quarters_to_land_project.replace("%", ""))) {
+    if (!isNumber(data.quarters_to_land_project.replace('%', ''))) {
       result = false;
-      error["quarters_to_land_project"] = true;
+      error['quarters_to_land_project'] = true;
     }
-    if (!isNumber(data.quarters_to_complete_construction.replace("%", ""))) {
+    if (!isNumber(data.quarters_to_complete_construction.replace('%', ''))) {
       result = false;
-      error["quarters_to_complete_construction"] = true;
-    } if (data.pov2 === "I am buying the land as a financial investor and will do a Revenue Share JDA with a developer" ||
-      data.pov2 === "I want to value the asset basis land owners share of cashflows in a Revenue Share JDA with a developer") {
-      if (!isNumber(data.LO_share.replace("%", ""))) {
+      error['quarters_to_complete_construction'] = true;
+    }
+    if (
+      data.pov2 ===
+        'I am buying the land as a financial investor and will do a Revenue Share JDA with a developer' ||
+      data.pov2 ===
+        'I want to value the asset basis land owners share of cashflows in a Revenue Share JDA with a developer'
+    ) {
+      if (!isNumber(data.LO_share.replace('%', ''))) {
         result = false;
-        error["LO_share"] = true;
+        error['LO_share'] = true;
       } else {
-        data.LO_share += "%";
+        if (!data.LO_share.toString().includes('%')) {
+          data.LO_share += '%';
+        }
       }
     } else {
-      data.LO_share = "";
+      data.LO_share = '';
       error.LO_share = false;
     }
-    if (data.pov1 === "I want to value the asset (NPV) basis a business plan and discount rate or desired return") {
+    if (
+      data.pov1 ===
+      'I want to value the asset (NPV) basis a business plan and discount rate or desired return'
+    ) {
       //console.log(data.desired_return.replace("%", ""), isNumber(data.desired_return.replace("%", "")));
 
-      if (!isNumber(data.desired_return.replace("%", ""))) {
+      if (!isNumber(data.desired_return.replace('%', ''))) {
         result = false;
         error.desired_return = true;
       }
     } else {
-      data.desired_return = "";
+      data.desired_return = '';
       error.desired_return = false;
     }
     setError({ ...error });
@@ -393,10 +413,10 @@ export default function SectionBasics() {
       const name = 'pov1';
       const value =
         'I want to see returns (IRR) at a particular price and business plan';
-      data.desired_return = "";
+      data.desired_return = '';
       error.desired_return = false;
       setData({ ...data, [name]: value });
-      setError({ ...error, [name]: false })
+      setError({ ...error, [name]: false });
     }
     if (
       e ==
@@ -446,7 +466,7 @@ export default function SectionBasics() {
         'I want to value the asset basis land owners share of cashflows in a Revenue Share JDA with a developer';
       setData({ ...data, [name]: value });
     }
-    setError({ ...error, [name]: false })
+    setError({ ...error, [name]: false });
   };
 
   const [currency, setCurrency] = useState(0);
@@ -474,7 +494,7 @@ export default function SectionBasics() {
     if (e == 'Saleable Area') {
       setbuiltupOrSaleable(2);
     }
-    setError({ ...error, [name]: false })
+    setError({ ...error, [name]: false });
   };
 
   const innerStyles = {
@@ -483,7 +503,6 @@ export default function SectionBasics() {
     },
   };
 
-
   return (
     <div className={classes.sections}>
       <div className={classes.container}>
@@ -491,7 +510,7 @@ export default function SectionBasics() {
           <h3>Personal Information</h3>
         </div>
         <div id='email'>
-          <div className="cont">
+          <div className='cont'>
             <div>
               <h5>Your email address</h5>
             </div>
@@ -502,7 +521,7 @@ export default function SectionBasics() {
               id='float'
               formControlProps={{
                 fullWidth: true,
-                error: error["email"]
+                error: error['email'],
               }}
               inputProps={{
                 endAdornment: (
@@ -514,8 +533,10 @@ export default function SectionBasics() {
             />
           </div>
 
-          <div className="cont">
-            <div><h5>Tell us about yourself!</h5></div>
+          <div className='cont'>
+            <div>
+              <h5>Tell us about yourself!</h5>
+            </div>
             <CustomInput
               labelText=''
               id='float'
@@ -523,7 +544,7 @@ export default function SectionBasics() {
               parentCallback={onChange}
               formControlProps={{
                 fullWidth: true,
-                error: error["description"]
+                error: error['description'],
               }}
               inputProps={{
                 endAdornment: (
@@ -541,16 +562,23 @@ export default function SectionBasics() {
             <h3>Choose your options</h3>
           </div>
           <div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: "wrap", padding: "0 1rem 2rem 1rem" }}>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                flexWrap: 'wrap',
+                padding: '0 1rem 2rem 1rem',
+              }}
+            >
               <h5>We&apos;ll analyse it from your point of view! - 1 </h5>
-              <div style={{ width: "300px" }}>
+              <div style={{ width: '300px' }}>
                 <div style={innerStyles.dropdownStyle}>
                   <CustomDropdown
                     buttonText='Select'
                     customButtonStyle={{
                       backgroundColor: '#e9ecef',
                       color: '#212529',
-                      width: "100%"
+                      width: '100%',
                     }}
                     dropdownList={[
                       { divider: true },
@@ -564,8 +592,8 @@ export default function SectionBasics() {
                 <div>
                   {dropdownValue === 1 ? (
                     <Primary>
-                      I want to see returns (IRR) at a particular price and business
-                      plan
+                      I want to see returns (IRR) at a particular price and
+                      business plan
                     </Primary>
                   ) : (
                     <></>
@@ -579,37 +607,48 @@ export default function SectionBasics() {
                     <></>
                   )}
                 </div>
-                {error["pov1"] ? <p style={{ color: "red" }}>This is required.</p> : <></>}
+                {error['pov1'] ? (
+                  <p style={{ color: 'red' }}>This is required.</p>
+                ) : (
+                  <></>
+                )}
               </div>
             </div>
           </div>
           <div className='dropdown'>
-            <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: "wrap", padding: "0 1rem 2rem 1rem" }}>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                flexWrap: 'wrap',
+                padding: '0 1rem 2rem 1rem',
+              }}
+            >
               <h5>We&apos;ll analyse it from your point of view! - 2</h5>
-              <div style={{ width: "300px" }}>
+              <div style={{ width: '300px' }}>
                 <div style={innerStyles.dropdownStyle}>
                   <CustomDropdown
                     customButtonStyle={{
                       backgroundColor: '#e9ecef',
                       color: '#212529',
-                      width: "100%"
+                      width: '100%',
                     }}
                     buttonText='Select'
                     onClick={dropdownPov2}
                     dropdownList={
                       dropdownValue == 1
                         ? [
-                          { divider: true },
-                          'I am buying the land and developing the project myself',
-                          { divider: true },
-                          'I am buying the land as a financial investor and will do a Revenue Share JDA with a developer',
-                        ]
+                            { divider: true },
+                            'I am buying the land and developing the project myself',
+                            { divider: true },
+                            'I am buying the land as a financial investor and will do a Revenue Share JDA with a developer',
+                          ]
                         : [
-                          { divider: true },
-                          'I want to value the asset basis the total project free cashflows',
-                          { divider: true },
-                          'I want to value the asset basis land owners share of cashflows in a Revenue Share JDA with a developer',
-                        ]
+                            { divider: true },
+                            'I want to value the asset basis the total project free cashflows',
+                            { divider: true },
+                            'I want to value the asset basis land owners share of cashflows in a Revenue Share JDA with a developer',
+                          ]
                     }
                   />
                 </div>
@@ -639,30 +678,41 @@ export default function SectionBasics() {
                   )}
                   {pov2 === 4 ? (
                     <Primary>
-                      I want to value the asset basis land owners share of cashflows
-                      in a Revenue Share JDA with a developer
+                      I want to value the asset basis land owners share of
+                      cashflows in a Revenue Share JDA with a developer
                     </Primary>
                   ) : (
                     <></>
                   )}
                 </div>
-                {error["pov2"] ? <p style={{ color: "red" }}>This is required</p> : <></>}
+                {error['pov2'] ? (
+                  <p style={{ color: 'red' }}>This is required</p>
+                ) : (
+                  <></>
+                )}
               </div>
             </div>
           </div>
           <div className='dropdown'>
-            <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: "wrap", padding: "0 1rem 2rem 1rem" }}>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                flexWrap: 'wrap',
+                padding: '0 1rem 2rem 1rem',
+              }}
+            >
               <h5>
                 Is it residential or commercial or residential with commercial
                 component?
               </h5>
-              <div style={{ width: "300px" }}>
+              <div style={{ width: '300px' }}>
                 <div style={innerStyles.dropdownStyle}>
                   <CustomDropdown
                     customButtonStyle={{
                       backgroundColor: '#e9ecef',
                       color: '#212529',
-                      width: "100%"
+                      width: '100%',
                     }}
                     onClick={onDropDownClick}
                     buttonText='Select'
@@ -690,22 +740,33 @@ export default function SectionBasics() {
                     <></>
                   )}
                 </div>
-                {error["res_comm_both"] ? <p style={{ color: "red" }}>This is required</p> : <></>}
+                {error['res_comm_both'] ? (
+                  <p style={{ color: 'red' }}>This is required</p>
+                ) : (
+                  <></>
+                )}
               </div>
             </div>
           </div>
           <div className='dropdown'>
-            <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: "wrap", padding: "0 1rem 2rem 1rem" }}>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                flexWrap: 'wrap',
+                padding: '0 1rem 2rem 1rem',
+              }}
+            >
               <h5>
                 Would you like to evaluate your project in INR mn or INR crore?
               </h5>
-              <div style={{ width: "300px" }}>
+              <div style={{ width: '300px' }}>
                 <div style={innerStyles.dropdownStyle}>
                   <CustomDropdown
                     customButtonStyle={{
                       backgroundColor: '#e9ecef',
                       color: '#212529',
-                      width: "100%"
+                      width: '100%',
                     }}
                     buttonText='Select'
                     onClick={currencySelect}
@@ -721,7 +782,11 @@ export default function SectionBasics() {
                   {currency === 1 ? <Primary>INR mn</Primary> : <></>}
                   {currency === 2 ? <Primary>INR Crore</Primary> : <></>}
                 </div>
-                {error["eval_mn_crore"] ? <p style={{ color: "red" }}>This is required</p> : <></>}
+                {error['eval_mn_crore'] ? (
+                  <p style={{ color: 'red' }}>This is required</p>
+                ) : (
+                  <></>
+                )}
               </div>
             </div>
           </div>
@@ -732,11 +797,9 @@ export default function SectionBasics() {
           <div className={classes.title}>
             <h3>Assumption</h3>
           </div>
-          <div className="cont">
+          <div className='cont'>
             <div>
-              <h5>
-                How big is the land parcel?
-              </h5>
+              <h5>How big is the land parcel?</h5>
             </div>
             <CustomInput
               parentCallback={onChange}
@@ -745,11 +808,11 @@ export default function SectionBasics() {
               labelText='acres'
               formControlProps={{
                 fullWidth: true,
-                error: error["land_parcel"]
+                error: error['land_parcel'],
               }}
             />
           </div>
-          <div className="cont">
+          <div className='cont'>
             <div>
               <h5>
                 Whats the cost of your land (we&apos;re assuming upfront
@@ -765,29 +828,32 @@ export default function SectionBasics() {
               name='cost_of_land'
               formControlProps={{
                 fullWidth: true,
-                error: error["cost_of_land"]
+                error: error['cost_of_land'],
               }}
             />
           </div>
-          {data.pov2 === "I am buying the land as a financial investor and will do a Revenue Share JDA with a developer" ||
-            data.pov2 === "I want to value the asset basis land owners share of cashflows in a Revenue Share JDA with a developer" ?
-            <div className="cont">
+          {data.pov2 ===
+            'I am buying the land as a financial investor and will do a Revenue Share JDA with a developer' ||
+          data.pov2 ===
+            'I want to value the asset basis land owners share of cashflows in a Revenue Share JDA with a developer' ? (
+            <div className='cont'>
               <div>
-                <h5>
-                  LO Share
-                </h5>
+                <h5>LO Share</h5>
               </div>
               <CustomInput
                 parentCallback={onChange}
-                labelText="%(percentage)"
+                labelText='%(percentage)'
                 id='float'
                 name='LO_share'
                 formControlProps={{
                   fullWidth: true,
-                  error: error["LO_share"]
+                  error: error['LO_share'],
                 }}
               />
-            </div> : <></>}
+            </div>
+          ) : (
+            <></>
+          )}
         </div>
 
         {commOrRes === 1 || commOrRes === 3 ? (
@@ -795,11 +861,9 @@ export default function SectionBasics() {
             <div className={classes.title}>
               <h3>Residential</h3>
             </div>
-            <div className="cont">
+            <div className='cont'>
               <div>
-                <h5>
-                  How much saleable area in the project?
-                </h5>
+                <h5>How much saleable area in the project?</h5>
               </div>
               <CustomInput
                 labelText='square feet'
@@ -808,16 +872,14 @@ export default function SectionBasics() {
                 parentCallback={onChange}
                 formControlProps={{
                   fullWidth: true,
-                  error: error["saleable_area_res"]
+                  error: error['saleable_area_res'],
                 }}
               />
             </div>
 
-            <div className="cont">
+            <div className='cont'>
               <div>
-                <h5>
-                  What&apos;s your all inclusive sales price?
-                </h5>
+                <h5>What&apos;s your all inclusive sales price?</h5>
               </div>
               <CustomInput
                 labelText='INR / sft'
@@ -826,16 +888,14 @@ export default function SectionBasics() {
                 parentCallback={onChange}
                 formControlProps={{
                   fullWidth: true,
-                  error: error["inc_sale_price_res"]
+                  error: error['inc_sale_price_res'],
                 }}
               />
             </div>
 
-            <div className="cont">
+            <div className='cont'>
               <div>
-                <h5>
-                  Would you like to assume any quarterly escalation?
-                </h5>
+                <h5>Would you like to assume any quarterly escalation?</h5>
               </div>
               <CustomInput
                 labelText='%(Percentage)'
@@ -844,7 +904,7 @@ export default function SectionBasics() {
                 parentCallback={onChange}
                 formControlProps={{
                   fullWidth: true,
-                  error: error["quarterly_escalation_res"]
+                  error: error['quarterly_escalation_res'],
                 }}
               />
             </div>
@@ -858,11 +918,9 @@ export default function SectionBasics() {
             <div className={classes.title}>
               <h3>Commercial</h3>
             </div>
-            <div className="cont">
+            <div className='cont'>
               <div>
-                <h5>
-                  How much saleable area in the project?
-                </h5>
+                <h5>How much saleable area in the project?</h5>
               </div>
               <CustomInput
                 labelText='square feet'
@@ -871,16 +929,14 @@ export default function SectionBasics() {
                 parentCallback={onChange}
                 formControlProps={{
                   fullWidth: true,
-                  error: error["saleable_area"]
+                  error: error['saleable_area'],
                 }}
               />
             </div>
 
-            <div className="cont">
+            <div className='cont'>
               <div>
-                <h5>
-                  Whats your all inclusive sales price?
-                </h5>
+                <h5>Whats your all inclusive sales price?</h5>
               </div>
               <CustomInput
                 labelText='INR / sft'
@@ -889,16 +945,14 @@ export default function SectionBasics() {
                 parentCallback={onChange}
                 formControlProps={{
                   fullWidth: true,
-                  error: error["inc_sale_price"]
+                  error: error['inc_sale_price'],
                 }}
               />
             </div>
 
-            <div className="cont">
+            <div className='cont'>
               <div>
-                <h5>
-                  Would you like to assume any quarterly escalation?
-                </h5>
+                <h5>Would you like to assume any quarterly escalation?</h5>
               </div>
               <CustomInput
                 labelText='%(Percentage)'
@@ -907,7 +961,7 @@ export default function SectionBasics() {
                 parentCallback={onChange}
                 formControlProps={{
                   fullWidth: true,
-                  error: error["quarterly_escalation"]
+                  error: error['quarterly_escalation'],
                 }}
               />
             </div>
@@ -922,19 +976,26 @@ export default function SectionBasics() {
           </div>
 
           <div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: "wrap", padding: "0 1rem 2rem 1rem" }}>
-              <h5 style={{ width: "400px" }}>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                flexWrap: 'wrap',
+                padding: '0 1rem 2rem 1rem',
+              }}
+            >
+              <h5 style={{ width: '400px' }}>
                 Would you like to calculate construction cost on saleable area
                 or add a separate construction area / built up area
               </h5>
-              <div style={{ width: "300px" }}>
+              <div style={{ width: '300px' }}>
                 <div style={innerStyles.dropdownStyle}>
                   <CustomDropdown
                     buttonText='Select'
                     customButtonStyle={{
                       backgroundColor: '#e9ecef',
                       color: '#212529',
-                      width: "100%"
+                      width: '100%',
                     }}
                     onClick={builtupOrSaleable}
                     dropdownList={[
@@ -946,20 +1007,30 @@ export default function SectionBasics() {
                   />
                 </div>
                 <div>
-                  {builtupSaleable === 1 ? <Primary>Built Up Area</Primary> : <></>}
-                  {builtupSaleable === 2 ? <Primary>Saleable Area</Primary> : <></>}
-                  {error["built_up_area"] ? <p style={{ color: "red" }}>This is required</p> : <></>}
+                  {builtupSaleable === 1 ? (
+                    <Primary>Built Up Area</Primary>
+                  ) : (
+                    <></>
+                  )}
+                  {builtupSaleable === 2 ? (
+                    <Primary>Saleable Area</Primary>
+                  ) : (
+                    <></>
+                  )}
+                  {error['built_up_area'] ? (
+                    <p style={{ color: 'red' }}>This is required</p>
+                  ) : (
+                    <></>
+                  )}
                 </div>
               </div>
             </div>
           </div>
 
           {builtupSaleable == 1 && builtupSaleable !== 2 ? (
-            <div className="cont">
+            <div className='cont'>
               <div>
-                <h5>
-                  How much built up area in the project?
-                </h5>
+                <h5>How much built up area in the project?</h5>
               </div>
               <CustomInput
                 labelText='square feet'
@@ -968,18 +1039,16 @@ export default function SectionBasics() {
                 parentCallback={onChange}
                 formControlProps={{
                   fullWidth: true,
-                  error: error["total_built_up_area"]
+                  error: error['total_built_up_area'],
                 }}
               />
             </div>
           ) : (
             <></>
           )}
-          <div className="cont">
+          <div className='cont'>
             <div>
-              <h5>
-                What&apos;s your cons cost estimate?
-              </h5>
+              <h5>What&apos;s your cons cost estimate?</h5>
             </div>
             <CustomInput
               labelText='INR / sft'
@@ -988,12 +1057,12 @@ export default function SectionBasics() {
               parentCallback={onChange}
               formControlProps={{
                 fullWidth: true,
-                error: error["cost_estimate"]
+                error: error['cost_estimate'],
               }}
             />
           </div>
 
-          <div className="cont">
+          <div className='cont'>
             <div>
               <h5>
                 Would you like to assume any quarterly escalation in cons cost?
@@ -1006,16 +1075,14 @@ export default function SectionBasics() {
               parentCallback={onChange}
               formControlProps={{
                 fullWidth: true,
-                error: error["quarterly_escalation_con"]
+                error: error['quarterly_escalation_con'],
               }}
             />
           </div>
 
-          <div className="cont">
+          <div className='cont'>
             <div>
-              <h5>
-                What % brokerage will you pay?
-              </h5>
+              <h5>What % brokerage will you pay?</h5>
             </div>
             <CustomInput
               labelText='%(percentage) of sales'
@@ -1024,12 +1091,12 @@ export default function SectionBasics() {
               parentCallback={onChange}
               formControlProps={{
                 fullWidth: true,
-                error: error["brokerage"]
+                error: error['brokerage'],
               }}
             />
           </div>
 
-          <div className="cont">
+          <div className='cont'>
             <div>
               <h5>
                 Load up any upfront costs you may incur! (example - approval
@@ -1043,16 +1110,14 @@ export default function SectionBasics() {
               parentCallback={onChange}
               formControlProps={{
                 fullWidth: true,
-                error: error["upfront_costs"]
+                error: error['upfront_costs'],
               }}
             />
           </div>
 
-          <div className="cont">
+          <div className='cont'>
             <div>
-              <h5>
-                Load up any other costs you want to!
-              </h5>
+              <h5>Load up any other costs you want to!</h5>
             </div>
             <CustomInput
               labelText='% of collections'
@@ -1061,12 +1126,12 @@ export default function SectionBasics() {
               parentCallback={onChange}
               formControlProps={{
                 fullWidth: true,
-                error: error["other_costs"]
+                error: error['other_costs'],
               }}
             />
           </div>
 
-          <div className="cont">
+          <div className='cont'>
             <div>
               <h5>
                 Load up any other costs you want to!(spread over duration of
@@ -1080,7 +1145,7 @@ export default function SectionBasics() {
               parentCallback={onChange}
               formControlProps={{
                 fullWidth: true,
-                error: error["other_costs_over_duration"]
+                error: error['other_costs_over_duration'],
               }}
             />
           </div>
@@ -1091,7 +1156,7 @@ export default function SectionBasics() {
             <h3>Timelines</h3>
           </div>
 
-          <div className="cont">
+          <div className='cont'>
             <div>
               <h5>
                 After how many quarters of buying land will project be launched?
@@ -1104,16 +1169,14 @@ export default function SectionBasics() {
               parentCallback={onChange}
               formControlProps={{
                 fullWidth: true,
-                error: error["quarters_to_land_project"]
+                error: error['quarters_to_land_project'],
               }}
             />
           </div>
 
-          <div className="cont">
+          <div className='cont'>
             <div>
-              <h5>
-                In how many quarters will construction be completed?
-              </h5>
+              <h5>In how many quarters will construction be completed?</h5>
             </div>
             <CustomInput
               labelText=''
@@ -1122,12 +1185,12 @@ export default function SectionBasics() {
               parentCallback={onChange}
               formControlProps={{
                 fullWidth: true,
-                error: error["quarters_to_complete_construction"]
+                error: error['quarters_to_complete_construction'],
               }}
             />
           </div>
           {commOrRes === 1 || commOrRes === 3 ? (
-            <div className="cont">
+            <div className='cont'>
               <div>
                 <h5>
                   In how many quarters will you sell 100% of the residential
@@ -1141,7 +1204,7 @@ export default function SectionBasics() {
                 parentCallback={onChange}
                 formControlProps={{
                   fullWidth: true,
-                  error: error["quarters_to_sell_res"]
+                  error: error['quarters_to_sell_res'],
                 }}
               />
             </div>
@@ -1150,7 +1213,7 @@ export default function SectionBasics() {
           )}
 
           {commOrRes === 2 || commOrRes === 3 ? (
-            <div className="cont">
+            <div className='cont'>
               <div>
                 <h5>
                   In how many quarters will you sell 100% of the commercial
@@ -1164,7 +1227,7 @@ export default function SectionBasics() {
                 parentCallback={onChange}
                 formControlProps={{
                   fullWidth: true,
-                  error: error["quarters_to_sell_comm"]
+                  error: error['quarters_to_sell_comm'],
                 }}
               />
             </div>
@@ -1177,11 +1240,9 @@ export default function SectionBasics() {
             <div className={classes.title}>
               <h3>Others</h3>
             </div>
-            <div className="cont">
+            <div className='cont'>
               <div>
-                <h5>
-                  Desired return or discount rate?
-                </h5>
+                <h5>Desired return or discount rate?</h5>
               </div>
               <CustomInput
                 labelText='%(Percentage)'
@@ -1190,7 +1251,7 @@ export default function SectionBasics() {
                 parentCallback={onChange}
                 formControlProps={{
                   fullWidth: true,
-                  error: error["desired_return"]
+                  error: error['desired_return'],
                 }}
               />
             </div>{' '}
@@ -1206,8 +1267,8 @@ export default function SectionBasics() {
             {isSaving ? (
               <div
                 style={{
-                  'animationDuration': '1s',
-                  'animationIterationCount': 'infinite',
+                  animationDuration: '1s',
+                  animationIterationCount: 'infinite',
                 }}
               >
                 Loading
@@ -1222,6 +1283,6 @@ export default function SectionBasics() {
           <BuySellTable data={tableData}></BuySellTable>
         </div>
       </div>
-    </div >
+    </div>
   );
 }
