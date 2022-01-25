@@ -254,17 +254,19 @@ export default function SectionBasics() {
           isError: true,
           message: 'Please enter value greater than 1.',
         };
-      } else
+      } else{
         error[name] = {
           isError: false,
           message: '',
         };
+      }
     } else if (
       name == 'brokerage' ||
       name == 'other_costs' ||
-      name == 'LO_share'
+      name == 'LO_share'  ||
+      name == 'desired_return'
     ) {
-      if (Number(value) > 100 || isNumber(value)) {
+      if (Number(value) > 100 || !isNumber(value)) {
         error[name] = {
           isError: true,
           message: 'Please enter value between 0-100.',

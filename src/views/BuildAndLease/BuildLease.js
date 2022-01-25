@@ -216,13 +216,13 @@ function BuildLease() {
     if (value === '' || !isNumber(value)) {
       error[name] = {
         isError: true,
-        message: 'Enter a positve number.',
+        message: 'Enter a positive number.',
       };
     } else if (name == 'exit_cap_rate') {
-      if (Number(value) < 0 || Number(value) > 100 || !isNumber(value))
+      if (Number(value) < 1 || Number(value) > 100 || !isNumber(value))
         error[name] = {
           isError: true,
-          message: 'Enter a number between 0-100.',
+          message: 'Enter a number between 1-100.',
         };
       else{
         error[name] = {
@@ -271,7 +271,8 @@ function BuildLease() {
       name == 'construction_finance_cost' ||
       name == 'construction_finance_lim' ||
       name == 'leasable_area' ||
-      name == 'peak_lease'
+      name == 'peak_lease' ||
+      name == 'desired_return'
     ) {
       if (Number(value) > 100 || !isNumber(value))
         error[name] = {
@@ -407,7 +408,7 @@ function BuildLease() {
     if (
       data.pov1 == pov1Data[1] &&
       (data.desired_return == '' ||
-        !isNumber(data.desired_return.replace('%', '')))
+        !isNumber(data.desired_return.replace('%', '')) || data.desired_return.replace('%','') > 100 ||  data.desired_return.replace('%','') < 0 )
     ) {
       result = false;
       error['desired_return']['isError'] = true;
@@ -436,7 +437,7 @@ function BuildLease() {
     ) {
       result = false;
       error['cost_of_land']['isError'] = true;
-      error['cost_of_land']['message'] = 'Please enter a positve number.';
+      error['cost_of_land']['message'] = 'Please enter a positive number.';
     }
     if (
       data.leasable_area_project == '' ||
@@ -445,7 +446,7 @@ function BuildLease() {
       result = false;
       error['leasable_area_project']['isError'] = true;
       error['leasable_area_project']['message'] =
-        'Please enter a positve number.';
+        'Please enter a positive number.';
     }
     if (
       data.rate_to_lease_inv == '' ||
@@ -453,7 +454,7 @@ function BuildLease() {
     ) {
       result = false;
       error['rate_to_lease_inv']['isError'] = true;
-      error['rate_to_lease_inv']['message'] = 'Please enter a positve number.';
+      error['rate_to_lease_inv']['message'] = 'Please enter a positive number.';
     }
     if (
       data.quarterly_escalation == '' ||
@@ -471,7 +472,7 @@ function BuildLease() {
     ) {
       result = false;
       error['CAM_margin_profit']['isError'] = true;
-      error['CAM_margin_profit']['message'] = 'Please enter a positve number.';
+      error['CAM_margin_profit']['message'] = 'Please enter a positive number.';
     }
     if (
       data.cons_cost_estimate == '' ||
@@ -479,7 +480,7 @@ function BuildLease() {
     ) {
       result = false;
       error['cons_cost_estimate']['isError'] = true;
-      error['cons_cost_estimate']['message'] = 'Please enter a positve number.';
+      error['cons_cost_estimate']['message'] = 'Please enter a positive number.';
     }
     if (
       data.quarterly_escalation_cons_cost == '' ||
@@ -503,7 +504,7 @@ function BuildLease() {
     ) {
       result = false;
       error['upfront_costs']['isError'] = true;
-      error['upfront_costs']['message'] = 'Please enter a positve number.';
+      error['upfront_costs']['message'] = 'Please enter a positive number.';
     }
     if (
       data.other_costs == '' ||
@@ -512,7 +513,7 @@ function BuildLease() {
     ) {
       result = false;
       error['other_costs']['isError'] = true;
-      error['other_costs']['message'] = 'Please enter a positve number.';
+      error['other_costs']['message'] = 'Please enter a positive number.';
     }
     if (
       data.operational_cost == '' ||
@@ -614,11 +615,11 @@ function BuildLease() {
     }
     if (
       data.exit_cap_rate == '' ||
-      !isNumber(data.exit_cap_rate.replace('%', '') || Number(data.exit_cap_rate) >100)
+      !isNumber(data.exit_cap_rate.replace('%', '') || Number(data.exit_cap_rate) >100 || Number(data.exit_cap_rate) < 1 )
     ) {
       result = false;
       error['exit_cap_rate']['isError'] = true;
-      error['exit_cap_rate']['message'] = 'Enter a number between 0-100.';
+      error['exit_cap_rate']['message'] = 'Enter a number between 1-100.';
     }
 
     setError({ ...error });
