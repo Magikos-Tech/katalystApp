@@ -224,7 +224,7 @@ function BuildLease() {
           isError: true,
           message: 'Enter a number between 1-100.',
         };
-      else{
+      else {
         error[name] = {
           isError: false,
           message: '',
@@ -249,7 +249,7 @@ function BuildLease() {
         };
     } else if (
       name == 'quarterly_escalation' ||
-      name == 'quarterly_escalation_cons_cost'
+      name == 'quarterly_escalation_cons_cost' 
     ) {
       if (
         Number(value) > 5 ||
@@ -259,25 +259,26 @@ function BuildLease() {
       )
         error[name] = {
           isError: true,
-          message: 'Enter a number between 0-5..',
+          message: 'Enter a number between 0-5.',
         };
       else
         error[name] = {
           isError: false,
           message: '',
         };
-    } else if ( 
+    } else if (
       name == 'LRD_cost' ||
       name == 'construction_finance_cost' ||
       name == 'construction_finance_lim' ||
       name == 'leasable_area' ||
       name == 'peak_lease' ||
-      name == 'desired_return'
+      name == 'desired_return' ||
+      name == 'LO_share'
     ) {
       if (Number(value) > 100 || !isNumber(value))
         error[name] = {
           isError: true,
-          message: 'Enter a number between 0-100',
+          message: 'Enter a number between 0-100.',
         };
       else
         error[name] = {
@@ -408,7 +409,9 @@ function BuildLease() {
     if (
       data.pov1 == pov1Data[1] &&
       (data.desired_return == '' ||
-        !isNumber(data.desired_return.replace('%', '')) || data.desired_return.replace('%','') > 100 ||  data.desired_return.replace('%','') < 0 )
+        !isNumber(data.desired_return.replace('%', '')) ||
+        data.desired_return.replace('%', '') > 100 ||
+        data.desired_return.replace('%', '') < 0)
     ) {
       result = false;
       error['desired_return']['isError'] = true;
@@ -417,7 +420,10 @@ function BuildLease() {
     }
     if (
       data.pov2 == pov2Data_2[1] &&
-      (data.LO_share == '' || !isNumber(data.LO_share.replace('%', '')))
+      (data.LO_share == '' ||
+        !isNumber(data.LO_share.replace('%', '')) ||
+        Number(data.LO_share.replace('%', '')) > 100 ||
+        Number(data.LO_share.replace('%', '')) < 0)
     ) {
       result = false;
       error['LO_share']['isError'] = true;
@@ -459,8 +465,8 @@ function BuildLease() {
     if (
       data.quarterly_escalation == '' ||
       !isNumber(data.quarterly_escalation.replace('%', '')) ||
-      Number(data.quarterly_escalation) > 5 ||
-      Number(data.quarterly_escalation) < 0
+      Number(data.quarterly_escalation.replace('%', '')) > 5 ||
+      Number(data.quarterly_escalation.replace('%', '')) < 0
     ) {
       result = false;
       error['quarterly_escalation']['isError'] = true;
@@ -480,7 +486,8 @@ function BuildLease() {
     ) {
       result = false;
       error['cons_cost_estimate']['isError'] = true;
-      error['cons_cost_estimate']['message'] = 'Please enter a positive number.';
+      error['cons_cost_estimate']['message'] =
+        'Please enter a positive number.';
     }
     if (
       data.quarterly_escalation_cons_cost == '' ||
@@ -531,7 +538,8 @@ function BuildLease() {
     ) {
       result = false;
       error['quarters_to_launch_project']['isError'] = true;
-      error['quarters_to_launch_project']['message'] = 'Enter a number between 1-40.';
+      error['quarters_to_launch_project']['message'] =
+        'Enter a number between 1-40.';
     }
     if (
       data.quarters_to_complete_consturction == '' ||
@@ -540,7 +548,8 @@ function BuildLease() {
     ) {
       result = false;
       error['quarters_to_complete_consturction']['isError'] = true;
-      error['quarters_to_complete_consturction']['message'] = 'Enter a number greater than 1.';
+      error['quarters_to_complete_consturction']['message'] =
+        'Enter a number greater than 1.';
     }
     if (
       data.leasable_area == '' ||
@@ -585,7 +594,8 @@ function BuildLease() {
     ) {
       result = false;
       error['construction_finance_lim']['isError'] = true;
-      error['construction_finance_lim']['message'] = 'Enter a number between 0-100.';
+      error['construction_finance_lim']['message'] =
+        'Enter a number between 0-100.';
     }
     if (
       data.construction_finance_cost == '' ||
@@ -594,7 +604,8 @@ function BuildLease() {
     ) {
       result = false;
       error['construction_finance_cost']['isError'] = true;
-      error['construction_finance_cost']['message'] = 'Enter a number between 0-100.';
+      error['construction_finance_cost']['message'] =
+        'Enter a number between 0-100.';
     }
     if (
       data.LRD_cost == '' ||
@@ -611,11 +622,16 @@ function BuildLease() {
     ) {
       result = false;
       error['LRD_principal_amortisation']['isError'] = true;
-      error['LRD_principal_amortisation']['message'] = 'Enter a positive number.';
+      error['LRD_principal_amortisation']['message'] =
+        'Enter a positive number.';
     }
     if (
       data.exit_cap_rate == '' ||
-      !isNumber(data.exit_cap_rate.replace('%', '') || Number(data.exit_cap_rate) >100 || Number(data.exit_cap_rate) < 1 )
+      !isNumber(
+        data.exit_cap_rate.replace('%', '') ||
+          Number(data.exit_cap_rate.replace('%', '')) > 100 ||
+          Number(data.exit_cap_rate.replace('%', '')) < 1
+      )
     ) {
       result = false;
       error['exit_cap_rate']['isError'] = true;

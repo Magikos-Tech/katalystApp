@@ -382,7 +382,7 @@ export default function SectionBasics() {
       };
     }
 
-    if (data.cost_estimate == '' || !verfiyEmail(data.cost_estimate)) {
+    if (data.cost_estimate == '' || !isNumber(data.cost_estimate)) {
       result = false;
       error['cost_estimate'] = {
         isError: true,
@@ -571,7 +571,7 @@ export default function SectionBasics() {
       result = false;
       error['quarterly_escalation_con']['isError'] = true;
       error['quarterly_escalation_con']['message'] =
-        'Please enter a number between 0-100.';
+        'Please enter a number between 0-5.';
     }
     if (
       !isNumber(data.brokerage.replace('%', '')) ||
