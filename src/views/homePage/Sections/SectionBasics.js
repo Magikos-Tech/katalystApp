@@ -559,9 +559,10 @@ export default function SectionBasics() {
       error['quarterly_escalation_con']['message'] =
         'Please enter a number between 0-5  .';
     }
+
     if (
       !isNumber(data.brokerage.replace('%', '')) ||
-      Number(data.brokerage) > 100
+      Number(data.brokerage.replace('%', '')) > 100
     ) {
       result = false;
       error['brokerage']['isError'] = true;
@@ -588,8 +589,8 @@ export default function SectionBasics() {
     }
     if (
       !isNumber(data.quarters_to_land_project.replace('%', '')) ||
-      Number(data.quarters_to_land_project) > 40 ||
-      Number(data.quarters_to_land_project) < 1 ||
+      Number(data.quarters_to_land_project.replace('%', '')) > 40 ||
+      Number(data.quarters_to_land_project.replace('%', '')) < 1 ||
       data.quarters_to_land_project == ''
     ) {
       result = false;
