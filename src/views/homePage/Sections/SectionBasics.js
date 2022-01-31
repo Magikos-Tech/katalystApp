@@ -170,13 +170,6 @@ export default function SectionBasics() {
 
   const [tableData, setTableData] = useState(null);
   const [isSaving, setSaving] = useState(false);
-  // const { emailId } = data;
-
-  // const onChange = (e) => {
-  //   //console.log('Event');
-  //   //console.log(e.target.value);
-  //   setData({ ...data, [e.target.name]: e.target.value });
-  // };
 
   function isNumber(str) {
     if (typeof str != 'string') return false; // we only process strings!
@@ -191,7 +184,6 @@ export default function SectionBasics() {
   }
 
   const onChange = (obj) => {
-    console.log('Onchange event called', obj);
     const { name, value } = obj;
     if (name == 'email') {
       if (value == '' || !verfiyEmail(value)) {
@@ -254,7 +246,7 @@ export default function SectionBasics() {
           isError: true,
           message: 'Please enter value greater than 1.',
         };
-      } else{
+      } else {
         error[name] = {
           isError: false,
           message: '',
@@ -263,7 +255,7 @@ export default function SectionBasics() {
     } else if (
       name == 'brokerage' ||
       name == 'other_costs' ||
-      name == 'LO_share'  ||
+      name == 'LO_share' ||
       name == 'desired_return'
     ) {
       if (Number(value) > 100 || !isNumber(value)) {
@@ -304,8 +296,6 @@ export default function SectionBasics() {
           data[e] = data[e] + '%';
         if (e === 'quarterly_escalation_res' && !data[e].includes('%'))
           data[e] = data[e] + '%';
-        // if (e === 'quarterly_escalation' && !data[e].includes('%'))
-        //   data[e] = data[e] + '%';
         if (e === 'brokerage' && !data[e].includes('%'))
           data[e] = data[e] + '%';
         if (e === 'other_costs' && !data[e].includes('%'))
@@ -322,8 +312,6 @@ export default function SectionBasics() {
       dataKeys.forEach((e) => {
         if (e === 'quarterly_escalation_con' && !data[e].includes('%'))
           data[e] = data[e] + '%';
-        // if (e === 'quarterly_escalation_res' && !data[e].includes('%'))
-        //   data[e] = data[e] + '%';
         if (e === 'quarterly_escalation' && !data[e].includes('%'))
           data[e] = data[e] + '%';
         if (e === 'brokerage' && !data[e].includes('%'))
@@ -354,8 +342,8 @@ export default function SectionBasics() {
           data[e] = data[e] + '%';
       });
     }
-    let result = true;
 
+    let result = true;
     if (data.email == '' || !verfiyEmail(data.email)) {
       result = false;
       error['email'] = {
@@ -410,6 +398,7 @@ export default function SectionBasics() {
       result = false;
       error['pov2']['isError'] = true;
     }
+
     if (data.res_comm_both === '') {
       result = false;
       error['res_comm_both']['isError'] = true;
@@ -430,6 +419,7 @@ export default function SectionBasics() {
           error['inc_sale_price_res']['message'] =
             'Please enter a number value.';
         }
+
         if (
           !isNumber(data.quarterly_escalation_res.replace('%', '')) ||
           Number(data.quarterly_escalation_res) > 5 ||
@@ -440,6 +430,7 @@ export default function SectionBasics() {
           error['inc_sale_price_res']['message'] =
             'Please enter a number less then 5 and greater than 0.';
         }
+
         if (
           !isNumber(data.quarters_to_sell_res.replace('%', '')) ||
           data.quarters_to_sell_res.replace('%', '') < 1
@@ -463,7 +454,18 @@ export default function SectionBasics() {
       if (
         data.res_comm_both == 'Commercial' ||
         data.res_comm_both == 'Residential with Commercial Component'
-      ) {
+      ){ 
+        if (
+          !isNumber(data.quarterly_escalation.replace('%', '')) ||
+          Number(data.quarterly_escalation.replace('%', '')) > 5 ||
+          Number(data.quarterly_escalation.replace('%', '')) < 0
+        ) {
+          result = false;
+          error['quarterly_escalation']['isError'] = true;
+          error['quarterly_escalation']['message'] =
+            'Please enter a number less than 5 and greater than 0.';
+        }
+
         if (
           !isNumber(data.saleable_area.replace('%', '')) ||
           data.saleable_area.replace('%', '') == ''
@@ -477,16 +479,7 @@ export default function SectionBasics() {
           error['inc_sale_price']['isError'] = true;
           error['inc_sale_price']['message'] = 'Please enter a positve number.';
         }
-        if (
-          !isNumber(data.quarterly_escalation.replace('%', '')) ||
-          Number(data.quarterly_escalation.replace('%', '')) > 5 ||
-          Number(data.quarterly_escalation.replace('%', '')) < 0
-        ) {
-          result = false;
-          error['quarterly_escalation']['isError'] = true;
-          error['quarterly_escalation']['message'] =
-            'Please enter a number less than 5 and greater than 0.';
-        }
+
         if (
           !isNumber(data.quarters_to_sell_comm.replace('%', '')) ||
           data.quarters_to_sell_comm.replace('%', '') < 1
@@ -496,17 +489,7 @@ export default function SectionBasics() {
           error['quarters_to_sell_comm']['message'] =
             'Please enter a number greater than 1.';
         }
-        if (
-          !isNumber(data.quarterly_escalation_res.replace('%', '')) ||
-          data.quarterly_escalation_res.replace('%', '') < 1 ||
-          data.quarterly_escalation_res.replace('%', '') > 5
-        ) {
-          result = false;
-          error['quarterly_escalation_res']['isError'] = true;
-          error['quarterly_escalation_res']['message'] =
-            'Please enter a number between 0-5';
-        }
-
+  
         if (data.res_comm_both !== 'Residential with Commercial Component') {
           data.saleable_area_res = '';
           data.inc_sale_price_res = '';
@@ -518,6 +501,8 @@ export default function SectionBasics() {
           error.quarters_to_sell_res.isError = false;
         }
       }
+      
+
     }
     if (data.built_up_area === '') {
       result = false;
@@ -528,7 +513,8 @@ export default function SectionBasics() {
         if (!isNumber(data.total_built_up_area.replace('%', ''))) {
           result = false;
           error['total_built_up_area']['isError'] = true;
-          error['total_built_up_area']['message'] = 'Please enter a positve number.';
+          error['total_built_up_area']['message'] =
+            'Please enter a positve number.';
         }
       }
     }
@@ -571,7 +557,7 @@ export default function SectionBasics() {
       result = false;
       error['quarterly_escalation_con']['isError'] = true;
       error['quarterly_escalation_con']['message'] =
-        'Please enter a number between 0-5.';
+        'Please enter a number between 0-5  .';
     }
     if (
       !isNumber(data.brokerage.replace('%', '')) ||
@@ -597,7 +583,8 @@ export default function SectionBasics() {
     if (!isNumber(data.other_costs_over_duration.replace('%', ''))) {
       result = false;
       error['other_costs_over_duration']['isError'] = true;
-      error['other_costs_over_duration']['message'] = 'Please enter a positive number.';
+      error['other_costs_over_duration']['message'] =
+        'Please enter a positive number.';
     }
     if (
       !isNumber(data.quarters_to_land_project.replace('%', '')) ||

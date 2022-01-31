@@ -231,7 +231,7 @@ function BuildLease() {
         };
       }
     } else if (name == 'quarters_to_launch_project') {
-      //quarters to lunch project should not be more than 40
+      //quarters to lunch project should not be more than 40 and less than 1.
       if (
         Number(value) > 40 ||
         Number(value) < 1 ||
@@ -314,14 +314,14 @@ function BuildLease() {
     setData({ ...data, saleable_area_or_built_up: value });
   };
 
-  const [tableData, setTableData] = useState(null);
-  const [isSaving, setSaving] = useState(false);
   function isNumber(str) {
     if (typeof str != 'string') return false; // we only process strings!
     // could also coerce to string: str = ""+str
     return !isNaN(str) && !isNaN(parseFloat(str)) && parseFloat(str) >= 0;
   }
 
+  const [tableData, setTableData] = useState(null);
+  const [isSaving, setSaving] = useState(false);
   const handleSubmit = (e) => {
     setTableData(null);
     e.preventDefault();
