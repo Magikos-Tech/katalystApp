@@ -554,14 +554,13 @@ export default function SectionBasics() {
     }
     if (
       !isNumber(data.quarterly_escalation_con.replace('%', '')) ||
-      data.quarterly_escalation_con.replace('%', '') > 100
+      Number(data.quarterly_escalation_con.replace('%', '')) > 5
     ) {
       result = false;
       error['quarterly_escalation_con']['isError'] = true;
       error['quarterly_escalation_con']['message'] =
         'Please enter a number between 0-5  .';
     }
-
     if (
       !isNumber(data.brokerage.replace('%', '')) ||
       Number(data.brokerage.replace('%', '')) > 100

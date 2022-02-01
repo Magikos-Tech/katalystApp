@@ -1130,7 +1130,7 @@ function BuildLease() {
                   labelText=''
                   formControlProps={{
                     fullWidth: true,
-                    error: error['builtup_area_project'],
+                    error: error['builtup_area_project']['isError'],
                   }}
                 />
                 {error['builtup_area_project']['isError'] ? (
