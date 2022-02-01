@@ -288,6 +288,7 @@ export default function SectionBasics() {
   };
 
   const handleSubmit = (event) => {
+    setTableData(null);
     event.preventDefault();
     const dataKeys = Object.keys(data);
     if (data.res_comm_both == 'Residential') {
@@ -422,12 +423,13 @@ export default function SectionBasics() {
 
         if (
           !isNumber(data.quarterly_escalation_res.replace('%', '')) ||
-          Number(data.quarterly_escalation_res) > 5 ||
-          Number(data.quarterly_escalation_res) < 0
+          Number(data.quarterly_escalation_res.replace('%', '')) > 5 ||
+          Number(data.quarterly_escalation_res.replace('%', '')) < 0
         ) {
+          console.log('quarterly_escalation_res error trigger')
           result = false;
           error['quarterly_escalation_res']['isError'] = true;
-          error['inc_sale_price_res']['message'] =
+          error['quarterly_escalation_res']['message'] =
             'Please enter a number less then 5 and greater than 0.';
         }
 

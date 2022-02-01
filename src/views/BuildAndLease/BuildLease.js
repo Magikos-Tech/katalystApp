@@ -249,7 +249,7 @@ function BuildLease() {
         };
     } else if (
       name == 'quarterly_escalation' ||
-      name == 'quarterly_escalation_cons_cost' 
+      name == 'quarterly_escalation_cons_cost'
     ) {
       if (
         Number(value) > 5 ||
@@ -419,12 +419,18 @@ function BuildLease() {
         'Please enter a number between 0-100.';
     }
     if (
-      data.pov2 == pov2Data_2[1] &&
-      (data.LO_share == '' ||
+      (data.pov2 == pov2Data_2[1] || data.pov2 == pov2Data_1[1]) &&
+      (data.LO_share.replace('%', '') == '' ||
         !isNumber(data.LO_share.replace('%', '')) ||
         Number(data.LO_share.replace('%', '')) > 100 ||
         Number(data.LO_share.replace('%', '')) < 0)
     ) {
+      console.log('lo share trigger.',data.pov2 == pov2Data_1[1],data.pov2 == pov2Data_2[1]);
+      console.log(data.LO_share.replace('%', '') == '' ,
+      !isNumber(data.LO_share.replace('%', '')) ,
+      Number(data.LO_share.replace('%', '')) > 100 ,
+      Number(data.LO_share.replace('%', '')) < 0)
+
       result = false;
       error['LO_share']['isError'] = true;
       error['LO_share']['message'] = 'Please enter a number between 0-100.';
@@ -627,11 +633,9 @@ function BuildLease() {
     }
     if (
       data.exit_cap_rate == '' ||
-      !isNumber(
-        data.exit_cap_rate.replace('%', '') ||
-          Number(data.exit_cap_rate.replace('%', '')) > 100 ||
-          Number(data.exit_cap_rate.replace('%', '')) < 1
-      )
+      !isNumber(data.exit_cap_rate.replace('%', '')) ||
+      Number(data.exit_cap_rate.replace('%', '')) > 100 ||
+      Number(data.exit_cap_rate.replace('%', '')) < 1
     ) {
       result = false;
       error['exit_cap_rate']['isError'] = true;
